@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Owner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">RE08_Group3_A2.User</a> &gt; <span class="el_source">Owner.java</span></div><h1>Owner.java</h1><pre class="source lang-java linenums">package RE08_Group3_A2.User;
+
+import RE08_Group3_A2.CancelTransaction;
+import RE08_Group3_A2.VendingMachine;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+
+public class Owner extends User{
+    public Owner(String name, int account, String password) {
+<span class="fc" id="L16">        super(name, account, 3, password);</span>
+<span class="fc" id="L17">    }</span>
+
+    //String format: account,type,name,password
+    public boolean addUser(String info, VendingMachine vendingMachine){
+<span class="fc" id="L21">        String[] strings = info.split(&quot;,&quot;);</span>
+<span class="fc" id="L22">        int account = Integer.parseInt(strings[0]);</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (vendingMachine.getUsers().get(account) != null){</span>
+<span class="fc" id="L24">            return false;</span>
+        }
+<span class="fc" id="L26">        int type = Integer.parseInt(strings[1]);</span>
+<span class="fc" id="L27">        String name = strings[2];</span>
+<span class="fc" id="L28">        String password = strings[3];</span>
+<span class="fc" id="L29">        User user = null;</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if(type == 1){</span>
+<span class="fc" id="L31">            user = new Seller(name, account, password);</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        } else if (type == 2) {</span>
+<span class="fc" id="L33">            user = new Cashier(name, account, password);</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        } else if (type == 3) {</span>
+<span class="fc" id="L35">            user = new Owner(name, account, password);</span>
+        }
+<span class="fc" id="L37">        vendingMachine.getUsers().put(account, user);</span>
+<span class="fc" id="L38">        return true;</span>
+
+    }
+    public boolean removeUser(int account, VendingMachine vendingMachine){
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        return vendingMachine.getUsers().remove(account) != null;</span>
+    }
+
+    public boolean getUsersReport(VendingMachine vendingMachine){
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if(vendingMachine == null){</span>
+<span class="fc" id="L47">            return false;</span>
+        }
+        //String path = &quot;src\\main\\resources\\ownerUsersReport.txt&quot;;
+<span class="fc" id="L50">        String path = &quot;src/main/resources/ownerUsersReport.txt&quot;;</span>
+<span class="fc" id="L51">        return generateUsersReports(path, vendingMachine.getUsers());</span>
+    }
+
+    public boolean getCancelTransactionReport(VendingMachine vendingMachine){
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if(vendingMachine == null){</span>
+<span class="fc" id="L56">            return false;</span>
+        }
+        //String path = &quot;src\\main\\resources\\ownerCancelTransactionReport.txt&quot;;
+<span class="fc" id="L59">        String path = &quot;src/main/resources/ownerCancelTransactionReport.txt&quot;;</span>
+<span class="fc" id="L60">        return generateTransactionReports(path,vendingMachine.getCancelTransactions());</span>
+    }
+
+
+
+    public boolean generateTransactionReports(String path, List&lt;CancelTransaction&gt; cancelTransactions){
+<span class="fc" id="L66">        File log = new File(path);</span>
+        try{
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            if(!log.exists()){</span>
+<span class="fc" id="L69">                System.out.println(&quot;We had to make a new file.&quot;);</span>
+<span class="fc" id="L70">                return false;</span>
+            }
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            if (cancelTransactions == null){</span>
+<span class="nc" id="L73">                return false;</span>
+            }
+<span class="fc" id="L75">            PrintWriter pw = new PrintWriter(log);</span>
+<span class="fc" id="L76">            pw.print(&quot;Date;Type;User&quot; + &quot;\n&quot;);</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            for (CancelTransaction cancelTransaction : cancelTransactions){</span>
+<span class="fc" id="L78">                StringBuilder stringBuilder = new StringBuilder();</span>
+<span class="fc" id="L79">                stringBuilder.append(cancelTransaction.getDtf()).append(&quot;;&quot;);</span>
+<span class="fc" id="L80">                stringBuilder.append(cancelTransaction.getType()).append(&quot;;&quot;);</span>
+<span class="fc" id="L81">                stringBuilder.append(cancelTransaction.getUser().getAccount()).append(&quot;\n&quot;);</span>
+<span class="fc" id="L82">                pw.append(stringBuilder);</span>
+<span class="fc" id="L83">            }</span>
+<span class="fc" id="L84">            DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy HH:mm:ss&quot;);</span>
+<span class="fc" id="L85">            LocalDateTime now = LocalDateTime.now();</span>
+<span class="fc" id="L86">            pw.append(&quot;\n&quot;);</span>
+<span class="fc" id="L87">            pw.append(&quot;This report updated at: &quot;).append(dtf.format(now));</span>
+<span class="fc" id="L88">            pw.close();</span>
+<span class="fc" id="L89">            return true;</span>
+<span class="nc" id="L90">        }catch(IOException e){</span>
+<span class="nc" id="L91">            System.out.println(&quot;COULD NOT LOG!!&quot;);</span>
+<span class="nc" id="L92">            return false;</span>
+        }
+    }
+
+    public boolean generateUsersReports(String path, HashMap&lt;Integer, User&gt; users){
+<span class="fc" id="L97">        File log = new File(path);</span>
+        try{
+<span class="fc bfc" id="L99" title="All 2 branches covered.">            if(!log.exists()){</span>
+<span class="fc" id="L100">                System.out.println(&quot;We had to make a new file.&quot;);</span>
+<span class="fc" id="L101">                return false;</span>
+            }
+<span class="fc bfc" id="L103" title="All 2 branches covered.">            if (users == null){</span>
+<span class="fc" id="L104">                return false;</span>
+            }
+<span class="fc" id="L106">            PrintWriter pw = new PrintWriter(log);</span>
+<span class="fc" id="L107">            pw.print(&quot;Name;Type&quot; + &quot;\n&quot;);</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">            for (User user : users.values()){</span>
+<span class="fc" id="L109">                StringBuilder stringBuilder = new StringBuilder();</span>
+<span class="fc" id="L110">                stringBuilder.append(user.getName()).append(&quot;;&quot;);</span>
+                //0 for Customer, 1 for Seller, 2 for Cashier, 3 for Owner.
+<span class="fc bfc" id="L112" title="All 2 branches covered.">                if(user.getType() == 0){</span>
+<span class="fc" id="L113">                    stringBuilder.append(&quot;Customer&quot;).append(&quot;\n&quot;);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">                } else if (user.getType() == 1) {</span>
+<span class="fc" id="L115">                    stringBuilder.append(&quot;Seller&quot;).append(&quot;\n&quot;);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">                } else if (user.getType() == 2) {</span>
+<span class="fc" id="L117">                    stringBuilder.append(&quot;Cashier&quot;).append(&quot;\n&quot;);</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">                } else if (user.getType() == 3) {</span>
+<span class="fc" id="L119">                    stringBuilder.append(&quot;Owner&quot;).append(&quot;\n&quot;);</span>
+                }
+<span class="fc" id="L121">                pw.append(stringBuilder);</span>
+<span class="fc" id="L122">            }</span>
+<span class="fc" id="L123">            DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy HH:mm:ss&quot;);</span>
+<span class="fc" id="L124">            LocalDateTime now = LocalDateTime.now();</span>
+<span class="fc" id="L125">            pw.append(&quot;\n&quot;);</span>
+<span class="fc" id="L126">            pw.append(&quot;This report updated at: &quot;).append(dtf.format(now));</span>
+<span class="fc" id="L127">            pw.close();</span>
+<span class="fc" id="L128">            return true;</span>
+<span class="nc" id="L129">        }catch(IOException e){</span>
+<span class="nc" id="L130">            System.out.println(&quot;COULD NOT LOG!!&quot;);</span>
+<span class="nc" id="L131">            return false;</span>
+        }
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

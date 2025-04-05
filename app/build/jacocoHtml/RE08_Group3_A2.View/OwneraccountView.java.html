@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OwneraccountView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">RE08_Group3_A2.View</a> &gt; <span class="el_source">OwneraccountView.java</span></div><h1>OwneraccountView.java</h1><pre class="source lang-java linenums">package RE08_Group3_A2.View;
+
+import RE08_Group3_A2.ReadAndWriteTXT.ReadTXT;
+import RE08_Group3_A2.ReadAndWriteTXT.WriteTXT;
+import RE08_Group3_A2.User.Owner;
+import RE08_Group3_A2.User.User;
+import RE08_Group3_A2.VendingMachine;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Iterator;
+
+<span class="nc" id="L16">public class OwneraccountView extends JFrame{</span>
+<span class="nc" id="L17">    Container container = getContentPane();</span>
+<span class="nc" id="L18">    SpringLayout springLayout = new SpringLayout();</span>
+<span class="nc" id="L19">    JPanel panel = new JPanel(springLayout);</span>
+
+
+
+    public void OwneraccountPlot(VendingMachine vendingMachine){
+<span class="nc" id="L24">        setSize(500,800);</span>
+<span class="nc" id="L25">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L26">        setDefaultCloseOperation(EXIT_ON_CLOSE);</span>
+<span class="nc" id="L27">        setResizable(false);</span>
+<span class="nc" id="L28">        setTitle(&quot;Re 08    Group 3    Project 2&quot;);</span>
+
+<span class="nc" id="L30">        HashMap&lt;Integer, User&gt; users = (new ReadTXT()).readUserTXT();</span>
+
+
+<span class="nc" id="L33">        JLabel adduserLabel = new JLabel(&quot;Add user&quot;);</span>
+
+
+<span class="nc" id="L36">        JLabel usernameLabel = new JLabel(&quot;Username:&quot;);</span>
+<span class="nc" id="L37">        springLayout.putConstraint(SpringLayout.WEST,usernameLabel,50,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L38">        springLayout.putConstraint(SpringLayout.NORTH,usernameLabel,50,SpringLayout.NORTH,panel);</span>
+
+<span class="nc" id="L40">        JTextField usernameText = new JTextField(20);</span>
+<span class="nc" id="L41">        springLayout.putConstraint(SpringLayout.WEST,usernameText,30,SpringLayout.EAST,usernameLabel);</span>
+<span class="nc" id="L42">        springLayout.putConstraint(SpringLayout.NORTH,usernameText,50,SpringLayout.NORTH,panel);</span>
+
+
+<span class="nc" id="L45">        JLabel passwordLabel = new JLabel(&quot;Password:&quot;);</span>
+<span class="nc" id="L46">        springLayout.putConstraint(SpringLayout.WEST,passwordLabel,50,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L47">        springLayout.putConstraint(SpringLayout.NORTH,passwordLabel,100,SpringLayout.NORTH,panel);</span>
+
+<span class="nc" id="L49">        JPasswordField passwordText = new JPasswordField(20);</span>
+<span class="nc" id="L50">        springLayout.putConstraint(SpringLayout.WEST,passwordText,30,SpringLayout.EAST,usernameLabel);</span>
+<span class="nc" id="L51">        springLayout.putConstraint(SpringLayout.NORTH,passwordText,100,SpringLayout.NORTH,panel);</span>
+
+<span class="nc" id="L53">        JLabel userTypeLabel = new JLabel(&quot;Type:&quot;);</span>
+<span class="nc" id="L54">        springLayout.putConstraint(SpringLayout.WEST,userTypeLabel,50,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L55">        springLayout.putConstraint(SpringLayout.NORTH,userTypeLabel,150,SpringLayout.NORTH,panel);</span>
+
+<span class="nc" id="L57">        JComboBox&lt;String&gt; type = new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L58">        type.addItem(&quot;Cashier&quot;);</span>
+<span class="nc" id="L59">        type.addItem(&quot;Seller&quot;);</span>
+<span class="nc" id="L60">        type.addItem(&quot;Owner&quot;);</span>
+<span class="nc" id="L61">        springLayout.putConstraint(SpringLayout.WEST,type,50,SpringLayout.EAST,userTypeLabel);</span>
+<span class="nc" id="L62">        springLayout.putConstraint(SpringLayout.NORTH,type,150,SpringLayout.NORTH,panel);</span>
+
+<span class="nc" id="L64">        JButton adduser = new JButton(&quot;add&quot;);</span>
+<span class="nc" id="L65">        springLayout.putConstraint(SpringLayout.WEST,adduser,60,SpringLayout.EAST,usernameLabel);</span>
+<span class="nc" id="L66">        springLayout.putConstraint(SpringLayout.NORTH,adduser,250,SpringLayout.NORTH,panel);</span>
+
+<span class="nc" id="L68">        adduser.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                if(actionEvent.getSource()==adduser){</span>
+<span class="nc" id="L72">                    User user = new User();</span>
+<span class="nc" id="L73">                    int accountnum = 0;</span>
+<span class="nc" id="L74">                    for (int i = 0; ; i++) {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                        if (users.get(i)==null){</span>
+<span class="nc" id="L76">                            accountnum = i;</span>
+<span class="nc" id="L77">                            break;</span>
+                        }
+                    }
+//                    user.setAccount(accountnum);
+//                    user.setName(usernameText.getText());
+//                    user.setType(Integer.parseInt(type.getSelectedItem().toString()));
+//                    user.setPassword(String.valueOf(passwordText.getPassword()));
+//                    users.put(user.getAccount(),user);
+
+<span class="nc" id="L86">                    int t = 0;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                    if (type.getSelectedItem().equals(&quot;Cashier&quot;)){</span>
+<span class="nc" id="L88">                        t = 1;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                    }else if(type.getSelectedItem().equals(&quot;Seller&quot;)){</span>
+<span class="nc" id="L90">                        t = 2;</span>
+                    }
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                    else if(type.getSelectedItem().equals(&quot;Owner&quot;)){</span>
+<span class="nc" id="L93">                        t = 3;</span>
+                    }
+
+<span class="nc" id="L96">                    String s = accountnum + &quot;,&quot; +t+ &quot;,&quot; + usernameText.getText() + &quot;,&quot; + String.valueOf(passwordText.getPassword()) + &quot;\n&quot;;</span>
+<span class="nc" id="L97">                    Owner owner = new Owner(&quot;&quot;,4,&quot;&quot;);</span>
+<span class="nc" id="L98">                    owner.addUser(s,vendingMachine);</span>
+<span class="nc" id="L99">                    WriteTXT writeTXT = new WriteTXT();</span>
+<span class="nc" id="L100">                    writeTXT.writeUserTXT(vendingMachine.getUsers());</span>
+
+<span class="nc" id="L102">                    JOptionPane.showMessageDialog(panel,&quot;ok!&quot;,&quot;ok!&quot;,1);</span>
+<span class="nc" id="L103">                    owner.getUsersReport(vendingMachine);</span>
+<span class="nc" id="L104">                    dispose();</span>
+<span class="nc" id="L105">                    OwneraccountView owneraccountView = new OwneraccountView();</span>
+<span class="nc" id="L106">                    owneraccountView.OwneraccountPlot(vendingMachine);</span>
+                }
+<span class="nc" id="L108">            }</span>
+        });
+
+
+
+
+
+
+<span class="nc" id="L116">        JLabel deluserLabel = new JLabel(&quot;Del user&quot;);</span>
+<span class="nc" id="L117">        springLayout.putConstraint(SpringLayout.NORTH,deluserLabel,400,SpringLayout.NORTH,panel);</span>
+
+
+
+<span class="nc" id="L121">        JLabel userIDLabel = new JLabel(&quot;user account id:&quot;);</span>
+<span class="nc" id="L122">        springLayout.putConstraint(SpringLayout.WEST,userIDLabel,50,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L123">        springLayout.putConstraint(SpringLayout.NORTH,userIDLabel,50,SpringLayout.SOUTH,deluserLabel);</span>
+
+
+
+<span class="nc" id="L127">        JComboBox&lt;Integer&gt; useridText= new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L128">        Iterator&lt;Integer&gt; key = users.keySet().iterator();</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        while (key.hasNext()){</span>
+<span class="nc" id="L130">            int i = key.next();</span>
+<span class="nc" id="L131">            useridText.addItem(i);</span>
+<span class="nc" id="L132">        }</span>
+
+<span class="nc" id="L134">        springLayout.putConstraint(SpringLayout.WEST,useridText,50,SpringLayout.EAST,userIDLabel);</span>
+<span class="nc" id="L135">        springLayout.putConstraint(SpringLayout.NORTH,useridText,50,SpringLayout.SOUTH,deluserLabel);</span>
+
+
+<span class="nc" id="L138">        JButton deluser = new JButton(&quot;del&quot;);</span>
+
+<span class="nc" id="L140">        deluser.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L143" title="All 2 branches missed.">                if(actionEvent.getSource()==deluser){</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">                    if (users.get(useridText.getSelectedItem()).getType()==0){</span>
+<span class="nc" id="L145">                        System.out.println(&quot;you can not del this user,because it is customer&quot;);</span>
+                    }
+                    else {
+//                        users.remove(useridText.getSelectedItem());
+//                        WriteTXT writeTXT = new WriteTXT();
+//                        writeTXT.writeUserTXT(users);
+
+<span class="nc" id="L152">                        Owner owner = new Owner(&quot;&quot;,4,&quot;&quot;);</span>
+<span class="nc" id="L153">                        owner.removeUser((Integer) useridText.getSelectedItem(),vendingMachine);</span>
+<span class="nc" id="L154">                        owner.getUsersReport(vendingMachine);</span>
+<span class="nc" id="L155">                        JOptionPane.showMessageDialog(panel,&quot;ok!&quot;,&quot;ok!&quot;,1);</span>
+<span class="nc" id="L156">                        WriteTXT writeTXT = new WriteTXT();</span>
+<span class="nc" id="L157">                        writeTXT.writeUserTXT(vendingMachine.getUsers());</span>
+<span class="nc" id="L158">                        dispose();</span>
+<span class="nc" id="L159">                        OwneraccountView owneraccountView = new OwneraccountView();</span>
+<span class="nc" id="L160">                        owneraccountView.OwneraccountPlot(vendingMachine);</span>
+                    }
+
+                }
+<span class="nc" id="L164">            }</span>
+        });
+
+<span class="nc" id="L167">        springLayout.putConstraint(SpringLayout.WEST, deluser ,50,SpringLayout.EAST,useridText);</span>
+<span class="nc" id="L168">        springLayout.putConstraint(SpringLayout.NORTH, deluser ,50,SpringLayout.SOUTH,deluserLabel);</span>
+
+
+<span class="nc" id="L171">        panel.add(adduserLabel);</span>
+<span class="nc" id="L172">        panel.add(usernameLabel);</span>
+<span class="nc" id="L173">        panel.add(usernameText);</span>
+<span class="nc" id="L174">        panel.add(passwordLabel);</span>
+<span class="nc" id="L175">        panel.add(passwordText);</span>
+<span class="nc" id="L176">        panel.add(userTypeLabel);</span>
+<span class="nc" id="L177">        panel.add(type);</span>
+
+<span class="nc" id="L179">        panel.add(deluserLabel);</span>
+<span class="nc" id="L180">        panel.add(userIDLabel);</span>
+<span class="nc" id="L181">        panel.add(useridText);</span>
+<span class="nc" id="L182">        panel.add(adduser);</span>
+<span class="nc" id="L183">        panel.add(deluser);</span>
+
+
+
+<span class="nc" id="L187">        JButton exit = new JButton(&quot;Exit!&quot;);</span>
+<span class="nc" id="L188">        exit.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L191" title="All 2 branches missed.">                if(actionEvent.getSource()==exit){</span>
+<span class="nc" id="L192">                    dispose();</span>
+<span class="nc" id="L193">                    LoginView loginView = new LoginView(vendingMachine);</span>
+<span class="nc" id="L194">                    loginView.LoginViewPlot();</span>
+                }
+<span class="nc" id="L196">            }</span>
+        });
+
+<span class="nc" id="L199">        springLayout.putConstraint(SpringLayout.WEST, exit  ,50,SpringLayout.EAST,useridText);</span>
+<span class="nc" id="L200">        springLayout.putConstraint(SpringLayout.NORTH, exit ,50,SpringLayout.SOUTH,deluser);</span>
+<span class="nc" id="L201">        panel.add(exit);</span>
+
+
+
+
+
+
+<span class="nc" id="L208">        container.add(panel);</span>
+
+<span class="nc" id="L210">        setVisible(true);</span>
+<span class="nc" id="L211">    }</span>
+
+//    public static void main(String[] args) {
+//        OwneraccountView owneraccountView = new OwneraccountView();
+//        owneraccountView.OwneraccountPlot();
+//    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

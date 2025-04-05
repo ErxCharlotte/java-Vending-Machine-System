@@ -1,0 +1,4 @@
+Date;Type;User
+03/11/2022 16:37:13;User cancel;123
+
+This report updated at: 03/11/2022 16:37:13

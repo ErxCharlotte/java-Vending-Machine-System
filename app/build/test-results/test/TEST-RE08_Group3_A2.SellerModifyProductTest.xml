@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="RE08_Group3_A2.SellerModifyProductTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2022-11-03T11:40:13" hostname="CHARLOTTE559" time="0.015">
+  <properties/>
+  <testcase name="sellerModifyProductNameTest()" classname="RE08_Group3_A2.SellerModifyProductTest" time="0.003"/>
+  <testcase name="sellerModifyProductCountTest()" classname="RE08_Group3_A2.SellerModifyProductTest" time="0.002"/>
+  <testcase name="sellerModifyProductCodeTest()" classname="RE08_Group3_A2.SellerModifyProductTest" time="0.002"/>
+  <testcase name="sellerModifyProductTypeTest()" classname="RE08_Group3_A2.SellerModifyProductTest" time="0.002"/>
+  <testcase name="sellerModifyProductPriceTest()" classname="RE08_Group3_A2.SellerModifyProductTest" time="0.003"/>
+  <testcase name="createSellerTest()" classname="RE08_Group3_A2.SellerModifyProductTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

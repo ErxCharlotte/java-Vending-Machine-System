@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cashier.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">RE08_Group3_A2.User</a> &gt; <span class="el_source">Cashier.java</span></div><h1>Cashier.java</h1><pre class="source lang-java linenums">package RE08_Group3_A2.User;
+
+import RE08_Group3_A2.Product.Product;
+import RE08_Group3_A2.Transaction;
+import RE08_Group3_A2.VendingMachine;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Cashier extends User{
+
+    private VendingMachine vm;
+    public Cashier(String name, int account, String password) {
+<span class="fc" id="L20">        super(name, account, 2, password);</span>
+<span class="fc" id="L21">    }</span>
+
+    public void modifyMoney(BigDecimal amount, int count, String type){
+<span class="nc" id="L24">        vm.modifyMoneyCount(amount, count, type);</span>
+<span class="nc" id="L25">    }</span>
+
+    public void getReportOfTheTransaction(VendingMachine vendingMachine){
+        //generateTransactionReport(&quot;src\\main\\resources\\transactionReport.txt&quot;, vendingMachine);
+<span class="fc" id="L29">        generateTransactionReport(&quot;src/main/resources/transactionReport.txt&quot;, vendingMachine);</span>
+<span class="fc" id="L30">    }</span>
+
+    public void generateTransactionReport(String path, VendingMachine vendingMachine){
+<span class="fc" id="L33">        File report = new File(path);</span>
+<span class="fc" id="L34">        ArrayList&lt;Transaction&gt; transactions = (ArrayList&lt;Transaction&gt;) vendingMachine.getTransactions();</span>
+        try{
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">            if(!report.exists()){</span>
+<span class="nc" id="L37">                System.out.println(&quot;We had to make a new file for the report of the Transactions.&quot;);</span>
+<span class="nc" id="L38">                return;</span>
+            }
+<span class="fc" id="L40">            PrintWriter pw = new PrintWriter(report);</span>
+<span class="fc" id="L41">            pw.print(&quot;Time;Products;Amount;Changes;PaymentWay&quot; + &quot;\n&quot;);</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            for (Transaction transaction : transactions){</span>
+<span class="nc" id="L43">                StringBuilder stringBuilder = new StringBuilder();</span>
+<span class="nc" id="L44">                stringBuilder.append(transaction.getTime().format(DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy HH:mm:ss&quot;))).append(&quot;;&quot;);</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                for (int i = 0; i &lt; transaction.getProducts().size(); i++){</span>
+<span class="nc" id="L46">                    Product pd = transaction.getProducts().get(i);</span>
+//                    if (i == 0){
+//                        stringBuilder.append(pd.getName()).append(&quot;[&quot;);
+//                    }
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                    if (i == transaction.getProducts().size() - 1){</span>
+<span class="nc" id="L51">                        stringBuilder.append(pd.getName()).append(&quot;;&quot;);</span>
+                    }else {
+<span class="nc" id="L53">                        stringBuilder.append(pd.getName()).append(&quot;,&quot;);</span>
+                    }
+                }
+<span class="nc" id="L56">                stringBuilder.append(transaction.getAmount()).append(&quot;;&quot;);</span>
+<span class="nc" id="L57">                stringBuilder.append(transaction.getChanges()).append(&quot;;&quot;);</span>
+<span class="nc" id="L58">                stringBuilder.append(transaction.getPaymentWay()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L59">                pw.append(stringBuilder);</span>
+<span class="nc" id="L60">            }</span>
+<span class="fc" id="L61">            DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy HH:mm:ss&quot;);</span>
+<span class="fc" id="L62">            LocalDateTime now = LocalDateTime.now();</span>
+<span class="fc" id="L63">            pw.append(&quot;\n&quot;);</span>
+<span class="fc" id="L64">            pw.append(&quot;This report updated at: &quot;).append(dtf.format(now));</span>
+<span class="fc" id="L65">            pw.close();</span>
+<span class="nc" id="L66">        }catch(IOException e){</span>
+<span class="nc" id="L67">            System.out.println(&quot;COULD NOT LOG!!&quot;);</span>
+<span class="fc" id="L68">        }</span>
+<span class="fc" id="L69">    }</span>
+
+}
+
+ 
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

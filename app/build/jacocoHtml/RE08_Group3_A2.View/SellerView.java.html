@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SellerView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">RE08_Group3_A2.View</a> &gt; <span class="el_source">SellerView.java</span></div><h1>SellerView.java</h1><pre class="source lang-java linenums">package RE08_Group3_A2.View;
+
+import RE08_Group3_A2.Product.Product;
+import RE08_Group3_A2.ReadAndWriteTXT.ReadTXT;
+import RE08_Group3_A2.ReadAndWriteTXT.WriteTXT;
+import RE08_Group3_A2.User.Cashier;
+import RE08_Group3_A2.User.Seller;
+import RE08_Group3_A2.VendingMachine;
+
+import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Iterator;
+
+<span class="nc" id="L23">public class SellerView extends JFrame {</span>
+<span class="nc" id="L24">    Container container = getContentPane();</span>
+<span class="nc" id="L25">    SpringLayout springLayout = new SpringLayout();</span>
+
+<span class="nc" id="L27">    Product temp = null;</span>
+<span class="nc" id="L28">    ReadTXT txt = new ReadTXT();</span>
+<span class="nc" id="L29">    HashMap&lt;Integer, Product&gt; products = txt.readProductTXT();</span>
+
+
+    public void SellerViewPlot(VendingMachine vendingMachine){
+
+
+<span class="nc" id="L35">        setSize(800,600);</span>
+<span class="nc" id="L36">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L37">        setDefaultCloseOperation(EXIT_ON_CLOSE);</span>
+<span class="nc" id="L38">        setResizable(false);</span>
+<span class="nc" id="L39">        setTitle(&quot;Re 08    Group 3    Project 2&quot;);</span>
+
+<span class="nc" id="L41">        JPanel panel = new JPanel(springLayout);</span>
+
+
+
+<span class="nc" id="L45">        String detail = &quot;&quot;;</span>
+
+<span class="nc" id="L47">        JComboBox&lt;Integer&gt; productBox = new JComboBox&lt;&gt;();</span>
+
+<span class="nc" id="L49">        Iterator&lt; Integer &gt; iterator = products.keySet().iterator();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        while (iterator.hasNext()){</span>
+
+<span class="nc" id="L52">            Integer code = iterator.next();</span>
+<span class="nc" id="L53">            detail+= code + &quot;,  &quot; + products.get(code).getName() +&quot;&lt;br/&gt;&quot;;</span>
+<span class="nc" id="L54">            productBox.addItem(code);</span>
+<span class="nc" id="L55">        }</span>
+        //use html
+<span class="nc" id="L57">        JLabel d = new JLabel(&quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;Code,  Product name, Price&lt;br/&gt;&quot; + detail+ &quot;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&quot;);</span>
+<span class="nc" id="L58">        springLayout.putConstraint(SpringLayout.NORTH,d,50,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L59">        springLayout.putConstraint(SpringLayout.WEST,d,0,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L60">        panel.add(d);</span>
+<span class="nc" id="L61">        springLayout.putConstraint(SpringLayout.NORTH,productBox,50,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L62">        springLayout.putConstraint(SpringLayout.WEST,productBox,50,SpringLayout.EAST,d);</span>
+<span class="nc" id="L63">        panel.add(productBox);</span>
+
+<span class="nc" id="L65">        JLabel itemCodeLabel = new JLabel(&quot;Code:&quot;);</span>
+<span class="nc" id="L66">        springLayout.putConstraint(SpringLayout.NORTH,itemCodeLabel,100,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L67">        springLayout.putConstraint(SpringLayout.WEST,itemCodeLabel,50,SpringLayout.EAST,d);</span>
+<span class="nc" id="L68">        JTextField itemCode = new JTextField(25);</span>
+<span class="nc" id="L69">        springLayout.putConstraint(SpringLayout.NORTH,itemCode,100,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L70">        springLayout.putConstraint(SpringLayout.WEST,itemCode,50,SpringLayout.EAST,itemCodeLabel);</span>
+<span class="nc" id="L71">        panel.add(itemCodeLabel);</span>
+<span class="nc" id="L72">        panel.add(itemCode);</span>
+
+
+<span class="nc" id="L75">        JLabel itemNameLabel = new JLabel(&quot;Name:&quot;);</span>
+<span class="nc" id="L76">        springLayout.putConstraint(SpringLayout.NORTH,itemNameLabel,150,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L77">        springLayout.putConstraint(SpringLayout.WEST,itemNameLabel,50,SpringLayout.EAST,d);</span>
+<span class="nc" id="L78">        JTextField itemName = new JTextField(25);</span>
+<span class="nc" id="L79">        springLayout.putConstraint(SpringLayout.NORTH,itemName,150,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L80">        springLayout.putConstraint(SpringLayout.WEST,itemName,50,SpringLayout.EAST,itemNameLabel);</span>
+<span class="nc" id="L81">        panel.add(itemNameLabel);</span>
+<span class="nc" id="L82">        panel.add(itemName);</span>
+
+
+
+<span class="nc" id="L86">        JLabel itemTypeLabel = new JLabel(&quot;Type:&quot;);</span>
+<span class="nc" id="L87">        springLayout.putConstraint(SpringLayout.NORTH,itemTypeLabel,200,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L88">        springLayout.putConstraint(SpringLayout.WEST,itemTypeLabel,50,SpringLayout.EAST,d);</span>
+        //JTextField itemType = new JTextField(25);
+<span class="nc" id="L90">        JComboBox&lt;String&gt; itemType = new JComboBox&lt;&gt;();</span>
+<span class="nc" id="L91">        itemType.addItem(&quot;Drinks&quot;);</span>
+<span class="nc" id="L92">        itemType.addItem(&quot;Chocolates&quot;);</span>
+<span class="nc" id="L93">        itemType.addItem(&quot;Chips&quot;);</span>
+<span class="nc" id="L94">        itemType.addItem(&quot;Candies&quot;);</span>
+
+<span class="nc" id="L96">        springLayout.putConstraint(SpringLayout.NORTH,itemType,200,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L97">        springLayout.putConstraint(SpringLayout.WEST,itemType,50,SpringLayout.EAST,itemTypeLabel);</span>
+<span class="nc" id="L98">        panel.add(itemTypeLabel);</span>
+<span class="nc" id="L99">        panel.add(itemType);</span>
+
+
+<span class="nc" id="L102">        JLabel itemNumberLabel = new JLabel(&quot;Number:&quot;);</span>
+<span class="nc" id="L103">        springLayout.putConstraint(SpringLayout.NORTH,itemNumberLabel,250,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L104">        springLayout.putConstraint(SpringLayout.WEST,itemNumberLabel,50,SpringLayout.EAST,d);</span>
+<span class="nc" id="L105">        JTextField itemNumber = new JTextField(25);</span>
+<span class="nc" id="L106">        springLayout.putConstraint(SpringLayout.NORTH,itemNumber,250,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L107">        springLayout.putConstraint(SpringLayout.WEST,itemNumber,50,SpringLayout.EAST,itemNumberLabel);</span>
+<span class="nc" id="L108">        panel.add(itemNumberLabel);</span>
+<span class="nc" id="L109">        panel.add(itemNumber);</span>
+
+<span class="nc" id="L111">        JLabel itemPriceLabel = new JLabel(&quot;Price:&quot;);</span>
+<span class="nc" id="L112">        springLayout.putConstraint(SpringLayout.NORTH,itemPriceLabel,300,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L113">        springLayout.putConstraint(SpringLayout.WEST,itemPriceLabel,50,SpringLayout.EAST,d);</span>
+
+
+<span class="nc" id="L116">        JFormattedTextField itemPrice = new JFormattedTextField();</span>
+<span class="nc" id="L117">        itemPrice.setColumns(5);</span>
+<span class="nc" id="L118">        springLayout.putConstraint(SpringLayout.NORTH,itemPrice,300,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L119">        springLayout.putConstraint(SpringLayout.WEST,itemPrice,50,SpringLayout.EAST,itemPriceLabel);</span>
+<span class="nc" id="L120">        panel.add(itemPriceLabel);</span>
+<span class="nc" id="L121">        panel.add(itemPrice);</span>
+
+
+
+
+
+<span class="nc" id="L127">        JButton search = new JButton(&quot;search&quot;);</span>
+<span class="nc" id="L128">        springLayout.putConstraint(SpringLayout.NORTH,search,50,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L129">        springLayout.putConstraint(SpringLayout.WEST,search,50,SpringLayout.EAST,productBox);</span>
+<span class="nc" id="L130">        panel.add(search);</span>
+
+<span class="nc" id="L132">        itemCode.addKeyListener(new KeyListener() {</span>
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+<span class="nc" id="L135">                int keyChar=keyEvent.getKeyChar();</span>
+<span class="nc bnc" id="L136" title="All 4 branches missed.">                if (keyChar&gt;=KeyEvent.VK_0 &amp;&amp; keyChar&lt;=KeyEvent.VK_9) {</span>
+
+                } else {
+<span class="nc" id="L139">                    keyEvent.consume();</span>
+                }
+<span class="nc" id="L141">            }</span>
+
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                //itemCode.setText(itemCode.getText().replaceAll(&quot;[^0-9|\\.]&quot;, &quot;&quot;));
+<span class="nc" id="L146">            }</span>
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                //itemCode.setText(itemCode.getText().replaceAll(&quot;[^0-9|\\.]&quot;, &quot;&quot;));
+<span class="nc" id="L151">            }</span>
+        });
+
+<span class="nc" id="L154">        itemNumber.addKeyListener(new KeyListener() {</span>
+            @Override
+            public void keyTyped(KeyEvent keyEvent) {
+<span class="nc" id="L157">                int keyChar=keyEvent.getKeyChar();</span>
+<span class="nc bnc" id="L158" title="All 4 branches missed.">                if (keyChar&gt;=KeyEvent.VK_0 &amp;&amp; keyChar&lt;=KeyEvent.VK_9) {</span>
+
+                } else {
+<span class="nc" id="L161">                    keyEvent.consume();</span>
+                }
+
+
+<span class="nc" id="L165">            }</span>
+
+            @Override
+            public void keyPressed(KeyEvent keyEvent) {
+                //itemCode.setText(itemCode.getText().replaceAll(&quot;[^0-9|\\.]&quot;, &quot;&quot;));
+<span class="nc" id="L170">            }</span>
+
+            @Override
+            public void keyReleased(KeyEvent keyEvent) {
+                //itemCode.setText(itemCode.getText().replaceAll(&quot;[^0-9|\\.]&quot;, &quot;&quot;));
+<span class="nc" id="L175">            }</span>
+        });
+
+
+
+<span class="nc" id="L180">        search.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc bnc" id="L183" title="All 2 branches missed.">                if(e.getSource()==search){</span>
+                    //TODO:show details
+<span class="nc" id="L185">                    int code = (int)productBox.getSelectedItem();</span>
+<span class="nc" id="L186">                    temp = products.get(code);</span>
+<span class="nc" id="L187">                    itemName.setText(products.get(code).getName());</span>
+<span class="nc" id="L188">                    itemCode.setText(Integer.toString(code));</span>
+//                    itemType.setText(products.get(code).getType());
+<span class="nc" id="L190">                    itemType.setSelectedItem(products.get(code).getType());</span>
+<span class="nc" id="L191">                    itemPrice.setText(products.get(code).getPrice().toString());</span>
+<span class="nc" id="L192">                    itemNumber.setText(Integer.toString(products.get(code).getCount()));</span>
+
+                }
+<span class="nc" id="L195">            }</span>
+        });
+
+
+
+
+<span class="nc" id="L201">        JButton update = new JButton(&quot;Update!&quot;);</span>
+<span class="nc" id="L202">        springLayout.putConstraint(SpringLayout.NORTH,update,350,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L203">        springLayout.putConstraint(SpringLayout.WEST,update,50,SpringLayout.EAST,d);</span>
+<span class="nc" id="L204">        panel.add(update);</span>
+
+
+<span class="nc" id="L207">        update.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc bnc" id="L210" title="All 2 branches missed.">                if(e.getSource()==update){</span>
+                    //TODO: Check whether the update is valid. If yes, update it. Otherwise, an error message is displayed
+<span class="nc bnc" id="L212" title="All 2 branches missed.">                    if(temp==null){</span>
+<span class="nc" id="L213">                        JOptionPane.showMessageDialog(panel, &quot;Please search before updating!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L216" title="All 2 branches missed.">                    else if(itemCode.getText().equals(&quot;&quot;)){</span>
+<span class="nc" id="L217">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the code!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L220" title="All 2 branches missed.">                    else if(itemName.getText().equals(&quot;&quot;)){</span>
+<span class="nc" id="L221">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the name!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L224" title="All 2 branches missed.">                    else if (itemNumber.getText().equals(&quot;&quot;)) {</span>
+
+<span class="nc" id="L226">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the number of products!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L229" title="All 2 branches missed.">                    else if(itemPrice.getText().equals(&quot;&quot;)){</span>
+<span class="nc" id="L230">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the price!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L233" title="All 2 branches missed.">                    else if(Integer.parseInt(itemNumber.getText())&gt;15){</span>
+<span class="nc" id="L234">                        JOptionPane.showMessageDialog(panel, &quot;too much number of product number,number&lt;=15!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L237" title="All 2 branches missed.">                    else if(!checkprice(itemPrice.getText())){</span>
+
+<span class="nc" id="L239">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the correct price format e.g.: 1.0, 5.6!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L242" title="All 4 branches missed.">                    else if(products.get(Integer.parseInt(itemCode.getText()))!=temp&amp;&amp;products.get(Integer.parseInt(itemCode.getText()))!=null){</span>
+<span class="nc" id="L243">                        JOptionPane.showMessageDialog(panel, &quot;code already exists!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+                    }
+                    else {
+<span class="nc" id="L246">                        Seller seller = new Seller(null,1,null);</span>
+
+
+//                        seller.modifyProductType(temp,itemType.getSelectedItem().toString());
+//                        seller.modifyProductCount(temp,Integer.parseInt(itemNumber.getText()));
+//                        seller.modifyProductPrice(temp,new BigDecimal(itemPrice.getText()));
+//                        seller.modifyProductCount(temp,Integer.parseInt(itemNumber.getText()));
+//                        seller.modifyProductName(temp,itemName.getText());
+//                        seller.modifyProductCode(temp,Integer.parseInt(itemCode.getText()));
+
+
+<span class="nc" id="L257">                        products.remove(Integer.parseInt(productBox.getSelectedItem().toString()));</span>
+<span class="nc" id="L258">                        Product newproduct = new Product();</span>
+<span class="nc" id="L259">                        newproduct.setCode(Integer.parseInt(itemCode.getText()));</span>
+<span class="nc" id="L260">                        newproduct.setName(itemName.getText());</span>
+<span class="nc" id="L261">                        newproduct.setCount(Integer.parseInt(itemNumber.getText()));</span>
+<span class="nc" id="L262">                        newproduct.setType(itemType.getSelectedItem().toString());</span>
+<span class="nc" id="L263">                        newproduct.setPrice(new BigDecimal(itemPrice.getText()));</span>
+<span class="nc" id="L264">                        products.put(newproduct.getCode(), newproduct);</span>
+<span class="nc" id="L265">                        WriteTXT writeTXT = new WriteTXT();</span>
+<span class="nc" id="L266">                        writeTXT.writeProductTXT(products);</span>
+<span class="nc" id="L267">                        Seller sellers = new Seller(&quot;&quot;,0,&quot;&quot;);</span>
+<span class="nc" id="L268">                        sellers.getReportASummary(vendingMachine);</span>
+<span class="nc" id="L269">                        sellers.getReportAListOfTheCurrentAvailableItems(vendingMachine);</span>
+<span class="nc" id="L270">                        JOptionPane.showMessageDialog(panel, &quot;Product has changed!&quot;, &quot;OK!&quot;, 1);</span>
+
+<span class="nc" id="L272">                        dispose();</span>
+<span class="nc" id="L273">                        SellerView sellerView = new SellerView();</span>
+<span class="nc" id="L274">                        sellerView.SellerViewPlot(vendingMachine);</span>
+                    }
+                }
+<span class="nc" id="L277">            }</span>
+        });
+
+
+<span class="nc" id="L281">        JButton del = new JButton(&quot;Remove!&quot;);</span>
+
+<span class="nc" id="L283">        springLayout.putConstraint(SpringLayout.NORTH,del,350,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L284">        springLayout.putConstraint(SpringLayout.WEST,del,50,SpringLayout.EAST,update);</span>
+<span class="nc" id="L285">        panel.add(del);</span>
+
+<span class="nc" id="L287">        del.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L290" title="All 2 branches missed.">                if(actionEvent.getSource()==del){</span>
+<span class="nc" id="L291">                    products.get(Integer.parseInt(productBox.getSelectedItem().toString())).setCount(0);</span>
+//                    products.remove(Integer.parseInt(productBox.getSelectedItem().toString()));
+<span class="nc" id="L293">                    WriteTXT writeTXT = new WriteTXT();</span>
+<span class="nc" id="L294">                    writeTXT.writeProductTXT(products);</span>
+<span class="nc" id="L295">                    System.out.println(&quot;pass!&quot;);</span>
+
+<span class="nc" id="L297">                    Seller seller = new Seller(&quot;&quot;,0,&quot;&quot;);</span>
+<span class="nc" id="L298">                    seller.getReportASummary(vendingMachine);</span>
+<span class="nc" id="L299">                    seller.getReportAListOfTheCurrentAvailableItems(vendingMachine);</span>
+<span class="nc" id="L300">                    JOptionPane.showMessageDialog(panel, &quot;Product has removed!&quot;, &quot;OK!&quot;,1);</span>
+
+<span class="nc" id="L302">                    dispose();</span>
+<span class="nc" id="L303">                    SellerView sellerView = new SellerView();</span>
+<span class="nc" id="L304">                    sellerView.SellerViewPlot(vendingMachine);</span>
+                }
+<span class="nc" id="L306">            }</span>
+        });
+
+<span class="nc" id="L309">        JButton add = new JButton(&quot;Add!&quot;);</span>
+
+<span class="nc" id="L311">        springLayout.putConstraint(SpringLayout.NORTH,add,350,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L312">        springLayout.putConstraint(SpringLayout.WEST,add,50,SpringLayout.EAST,del);</span>
+<span class="nc" id="L313">        panel.add(add);</span>
+
+<span class="nc" id="L315">        add.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L318" title="All 2 branches missed.">                if(actionEvent.getSource()==add){</span>
+<span class="nc bnc" id="L319" title="All 2 branches missed.">                    if(itemCode.getText().equals(&quot;&quot;)){</span>
+<span class="nc" id="L320">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the code!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L323" title="All 2 branches missed.">                    else if(itemName.getText().equals(&quot;&quot;)){</span>
+<span class="nc" id="L324">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the name!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L327" title="All 2 branches missed.">                    else if (itemNumber.getText().equals(&quot;&quot;)) {</span>
+
+<span class="nc" id="L329">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the number of products!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L332" title="All 2 branches missed.">                    else if(itemPrice.getText().equals(&quot;&quot;)){</span>
+<span class="nc" id="L333">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the price!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L336" title="All 2 branches missed.">                    else if(Integer.parseInt(itemNumber.getText())&gt;15){</span>
+<span class="nc" id="L337">                        JOptionPane.showMessageDialog(panel, &quot;too much number of product number,number&lt;=15!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L340" title="All 2 branches missed.">                    else if(!checkprice(itemPrice.getText())){</span>
+
+<span class="nc" id="L342">                        JOptionPane.showMessageDialog(panel, &quot;Please enter the correct price format e.g.: 1.0, 5.6!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L345" title="All 2 branches missed.">                    else if(products.get(Integer.parseInt(itemCode.getText()))!=null){</span>
+<span class="nc" id="L346">                        JOptionPane.showMessageDialog(panel, &quot;code already exists!&quot;, &quot;Error!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+                    }else {
+<span class="nc" id="L348">                        Product newproduct = new Product();</span>
+
+<span class="nc" id="L350">                        newproduct.setCode(Integer.parseInt(itemCode.getText()));</span>
+<span class="nc" id="L351">                        newproduct.setName(itemName.getText());</span>
+<span class="nc" id="L352">                        newproduct.setCount(Integer.parseInt(itemNumber.getText()));</span>
+<span class="nc" id="L353">                        newproduct.setType(itemType.getSelectedItem().toString());</span>
+<span class="nc" id="L354">                        newproduct.setPrice(new BigDecimal(itemPrice.getText()));</span>
+<span class="nc" id="L355">                        products.put(newproduct.getCode(), newproduct);</span>
+
+<span class="nc" id="L357">                        Seller seller = new Seller(&quot;&quot;,0,&quot;&quot;);</span>
+<span class="nc" id="L358">                        seller.getReportASummary(vendingMachine);</span>
+<span class="nc" id="L359">                        seller.getReportAListOfTheCurrentAvailableItems(vendingMachine);</span>
+<span class="nc" id="L360">                        JOptionPane.showMessageDialog(panel, &quot;Product has add!&quot;, &quot;OK!&quot;, 1);</span>
+
+<span class="nc" id="L362">                        WriteTXT writeTXT = new WriteTXT();</span>
+<span class="nc" id="L363">                        writeTXT.writeProductTXT(products);</span>
+<span class="nc" id="L364">                        System.out.println(&quot;pass!&quot;);</span>
+<span class="nc" id="L365">                        dispose();</span>
+<span class="nc" id="L366">                        SellerView sellerView = new SellerView();</span>
+<span class="nc" id="L367">                        sellerView.SellerViewPlot(vendingMachine);</span>
+                    }
+                }
+<span class="nc" id="L370">            }</span>
+        });
+
+
+
+<span class="nc" id="L375">        JButton Exit = new JButton(&quot;Exit!&quot;);</span>
+
+<span class="nc" id="L377">        springLayout.putConstraint(SpringLayout.NORTH,Exit,350,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L378">        springLayout.putConstraint(SpringLayout.WEST,Exit,50,SpringLayout.EAST,add);</span>
+<span class="nc" id="L379">        panel.add(Exit);</span>
+<span class="nc" id="L380">        Exit.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L383" title="All 2 branches missed.">                if(actionEvent.getSource()==Exit){</span>
+<span class="nc" id="L384">                    dispose();</span>
+<span class="nc" id="L385">                    LoginView loginView = new LoginView(vendingMachine);</span>
+<span class="nc" id="L386">                    loginView.LoginViewPlot();</span>
+                }
+<span class="nc" id="L388">            }</span>
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="nc" id="L402">        setVisible(true);</span>
+<span class="nc" id="L403">        container.add(panel);</span>
+<span class="nc" id="L404">    }</span>
+
+    public boolean checkprice(String s){
+<span class="nc" id="L407">        String[] priceofinput = s.split(&quot;\\.&quot;);</span>
+<span class="nc bnc" id="L408" title="All 2 branches missed.">        if (priceofinput.length!=2){</span>
+<span class="nc" id="L409">            return false;</span>
+        }
+
+<span class="nc bnc" id="L412" title="All 2 branches missed.">        if(priceofinput[1].length()&gt;2){</span>
+<span class="nc" id="L413">            return false;</span>
+        }
+<span class="nc bnc" id="L415" title="All 2 branches missed.">        if(!isNumeric(priceofinput[0])){</span>
+<span class="nc" id="L416">            return false;</span>
+        }
+<span class="nc bnc" id="L418" title="All 2 branches missed.">        if (!isNumeric(priceofinput[1])){</span>
+<span class="nc" id="L419">            return false;</span>
+        }
+
+<span class="nc" id="L422">        return true;</span>
+    }
+
+    public static boolean isNumeric(String str) {
+
+<span class="nc bnc" id="L427" title="All 2 branches missed.">        for (int i = 0; i &lt; str.length(); i++) {</span>
+
+<span class="nc bnc" id="L429" title="All 2 branches missed.">            if (!Character.isDigit(str.charAt(i))) {</span>
+
+<span class="nc" id="L431">                return false;</span>
+
+            }
+        }
+
+<span class="nc" id="L436">        return true;</span>
+    }
+
+//    public static void main(String[] args) {
+//        SellerView sellerView = new SellerView();
+//        sellerView.SellerViewPlot();
+//    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

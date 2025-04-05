@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Pay_CashView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">RE08_Group3_A2.View</a> &gt; <span class="el_source">Pay_CashView.java</span></div><h1>Pay_CashView.java</h1><pre class="source lang-java linenums">package RE08_Group3_A2.View;
+
+import RE08_Group3_A2.CancelTransaction;
+import RE08_Group3_A2.Money;
+import RE08_Group3_A2.Product.Product;
+import RE08_Group3_A2.ReadAndWriteTXT.WriteTXT;
+import RE08_Group3_A2.User.Cashier;
+import RE08_Group3_A2.User.Owner;
+import RE08_Group3_A2.User.Seller;
+import RE08_Group3_A2.VendingMachine;
+
+import javax.swing.*;
+import javax.swing.Timer;
+import java.awt.*;
+import java.awt.event.*;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.List;
+
+public class Pay_CashView extends JFrame {
+    VendingMachine vendingMachine;
+<span class="nc" id="L22">    SpringLayout springLayout = new SpringLayout();</span>
+<span class="nc" id="L23">    JPanel panel = new JPanel(springLayout);</span>
+    String username;
+
+<span class="nc" id="L26">    int tt = 0;</span>
+<span class="nc" id="L27">    JLabel nameLable = new JLabel(&quot;please put cash &quot;,JLabel.CENTER);</span>
+
+<span class="nc" id="L29">    public Pay_CashView(VendingMachine vendingMachine,String username) {</span>
+<span class="nc" id="L30">        this.vendingMachine = vendingMachine;</span>
+<span class="nc" id="L31">        this.username = username;</span>
+<span class="nc" id="L32">    }</span>
+
+    public void Pay_CashViewPlot(BigDecimal totalPrice, List&lt;Product&gt; boughtProduct, String s, int time,String account){
+
+
+
+<span class="nc" id="L38">        Container container = getContentPane();</span>
+
+<span class="nc" id="L40">        setSize(600,600);</span>
+<span class="nc" id="L41">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L42">        setDefaultCloseOperation(EXIT_ON_CLOSE);</span>
+<span class="nc" id="L43">        setResizable(false);</span>
+<span class="nc" id="L44">        panel.add(nameLable);</span>
+
+<span class="nc" id="L46">        tt = time;</span>
+
+<span class="nc" id="L48">        JLabel t = new JLabel(&quot;You have &quot;+Integer.toString(120-tt)+&quot; seconds left&quot;);</span>
+<span class="nc" id="L49">        panel.add(t);</span>
+
+<span class="nc" id="L51">        springLayout.putConstraint(SpringLayout.WEST,t,300,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L52">        springLayout.putConstraint(SpringLayout.NORTH,t,25,SpringLayout.SOUTH,nameLable);</span>
+
+<span class="nc" id="L54">        Timer timer = new Timer(1000, new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc" id="L57">                t.setText(&quot;You have &quot;+Integer.toString(120-tt)+&quot; seconds left&quot;);</span>
+<span class="nc" id="L58">                tt++;</span>
+<span class="nc" id="L59">            }</span>
+        });
+<span class="nc" id="L61">        timer.start();</span>
+
+<span class="nc" id="L63">        timer.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                if (tt&gt;=120){</span>
+                    //TODO:Time out &amp; add it in report
+<span class="nc" id="L68">                    JOptionPane.showMessageDialog(panel, &quot;Sorry,time out!&quot;, &quot;Failed!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+<span class="nc" id="L69">                    tt = 0;</span>
+<span class="nc" id="L70">                    timer.stop();</span>
+
+<span class="nc" id="L72">                    CancelTransaction cancelTransaction = new CancelTransaction(&quot;timeout&quot;,vendingMachine.getUsers().get(Integer.parseInt(account)));</span>
+<span class="nc" id="L73">                    vendingMachine.getCancelTransactions().add(cancelTransaction);</span>
+<span class="nc" id="L74">                    Owner owner = new Owner(&quot;&quot;,999,&quot;&quot;);</span>
+<span class="nc" id="L75">                    owner.getCancelTransactionReport(vendingMachine);</span>
+
+<span class="nc" id="L77">                    dispose();</span>
+<span class="nc" id="L78">                    LoginView loginView = new LoginView(vendingMachine);</span>
+<span class="nc" id="L79">                    loginView.LoginViewPlot();</span>
+                }
+<span class="nc" id="L81">            }</span>
+        });
+
+
+<span class="nc" id="L85">        setTitle(&quot;Re 08    Group 3    Project 2&quot;);</span>
+<span class="nc" id="L86">        nameLable.setFont(new Font(&quot;Arial&quot;,Font.PLAIN,30));</span>
+
+<span class="nc" id="L88">        JLabel price = new JLabel(&quot;total price: &quot;+totalPrice.toString());</span>
+<span class="nc" id="L89">        price.setFont(new Font(&quot;Arial&quot;,Font.PLAIN,25));</span>
+<span class="nc" id="L90">        panel.add(price);</span>
+<span class="nc" id="L91">        springLayout.putConstraint(SpringLayout.NORTH,price,25,SpringLayout.SOUTH,nameLable);</span>
+
+<span class="nc" id="L93">        String[] ss = s.split(&quot;\n&quot;);</span>
+<span class="nc" id="L94">        String sss = &quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;product name, count, price&lt;/p&gt;&lt;br&gt;&lt;p&gt;&quot;;</span>
+<span class="nc" id="L95">        String ssss = &quot;&lt;/p&gt;&lt;body&gt;&lt;/html&gt;&quot;;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        for (int i = 0; i &lt; ss.length; i++) {</span>
+<span class="nc" id="L97">            sss+=ss[i] + &quot;&lt;br&gt;&quot;;</span>
+        }
+<span class="nc" id="L99">        sss+=ssss;</span>
+        //System.out.println(sss);
+
+        //JLabel list = new JLabel(&quot;&lt;html&gt;&lt;body&gt;&lt;p&gt;product name, count, price&lt;/p&gt;&lt;br&gt;&lt;p&gt;&quot;+s+&quot;&lt;/p&gt;&lt;body&gt;&lt;/html&gt;&quot;);
+
+<span class="nc" id="L104">        JLabel list = new JLabel(sss);</span>
+
+<span class="nc" id="L106">        panel.add(list);</span>
+<span class="nc" id="L107">        springLayout.putConstraint(SpringLayout.NORTH,list,25,SpringLayout.SOUTH,t);</span>
+<span class="nc" id="L108">        springLayout.putConstraint(SpringLayout.WEST,list,300,SpringLayout.WEST,panel);</span>
+
+
+<span class="nc" id="L111">        JButton cancel = new JButton(&quot;cancel order!&quot;);</span>
+<span class="nc" id="L112">        cancel.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L115" title="All 2 branches missed.">                if(actionEvent.getSource()==cancel){</span>
+<span class="nc" id="L116">                    timer.stop();</span>
+<span class="nc" id="L117">                    dispose();</span>
+<span class="nc" id="L118">                    LoginView loginView = new LoginView(vendingMachine);</span>
+<span class="nc" id="L119">                    loginView.LoginViewPlot();</span>
+                }
+<span class="nc" id="L121">            }</span>
+        });
+
+
+
+
+<span class="nc" id="L127">        JLabel m$50 = new JLabel(&quot;number of $50:&quot;);</span>
+<span class="nc" id="L128">        springLayout.putConstraint(SpringLayout.NORTH,m$50,25,SpringLayout.SOUTH,price);</span>
+<span class="nc" id="L129">        panel.add(m$50);</span>
+<span class="nc" id="L130">        SpinnerModel _50$ = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L131">        JSpinner num_50$= new JSpinner(_50$);</span>
+<span class="nc" id="L132">        JFormattedTextField tf_50$ =  ((JSpinner.DefaultEditor)num_50$.getEditor()).getTextField();</span>
+<span class="nc" id="L133">        tf_50$.setEditable(false);</span>
+<span class="nc" id="L134">        panel.add(num_50$);</span>
+<span class="nc" id="L135">        springLayout.putConstraint(SpringLayout.WEST,num_50$,50,SpringLayout.EAST,m$50);</span>
+<span class="nc" id="L136">        springLayout.putConstraint(SpringLayout.NORTH,num_50$,25,SpringLayout.SOUTH,price);</span>
+
+
+<span class="nc" id="L139">        JLabel m$20 = new JLabel(&quot;number of $20:&quot;);</span>
+<span class="nc" id="L140">        springLayout.putConstraint(SpringLayout.NORTH,m$20,25,SpringLayout.SOUTH,m$50);</span>
+<span class="nc" id="L141">        panel.add(m$20);</span>
+<span class="nc" id="L142">        SpinnerModel _20$ = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L143">        JSpinner num_20$= new JSpinner(_20$);</span>
+<span class="nc" id="L144">        JFormattedTextField tf_20$ =  ((JSpinner.DefaultEditor)num_20$.getEditor()).getTextField();</span>
+<span class="nc" id="L145">        tf_20$.setEditable(false);</span>
+<span class="nc" id="L146">        panel.add(num_20$);</span>
+<span class="nc" id="L147">        springLayout.putConstraint(SpringLayout.WEST,num_20$,50,SpringLayout.EAST,m$20);</span>
+<span class="nc" id="L148">        springLayout.putConstraint(SpringLayout.NORTH,num_20$,25,SpringLayout.SOUTH,m$50);</span>
+
+<span class="nc" id="L150">        JLabel m$10 = new JLabel(&quot;number of $10:&quot;);</span>
+<span class="nc" id="L151">        springLayout.putConstraint(SpringLayout.NORTH,m$10,25,SpringLayout.SOUTH,m$20);</span>
+<span class="nc" id="L152">        panel.add(m$10);</span>
+<span class="nc" id="L153">        SpinnerModel _10$ = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L154">        JSpinner num_10$= new JSpinner(_10$);</span>
+<span class="nc" id="L155">        JFormattedTextField tf_10$ =  ((JSpinner.DefaultEditor)num_10$.getEditor()).getTextField();</span>
+<span class="nc" id="L156">        tf_10$.setEditable(false);</span>
+<span class="nc" id="L157">        panel.add(num_10$);</span>
+<span class="nc" id="L158">        springLayout.putConstraint(SpringLayout.WEST,num_10$,50,SpringLayout.EAST,m$10);</span>
+<span class="nc" id="L159">        springLayout.putConstraint(SpringLayout.NORTH,num_10$,25,SpringLayout.SOUTH,m$20);</span>
+
+
+<span class="nc" id="L162">        JLabel m$5 = new JLabel(&quot;number of $5:&quot;);</span>
+<span class="nc" id="L163">        springLayout.putConstraint(SpringLayout.NORTH,m$5,25,SpringLayout.SOUTH,m$10);</span>
+<span class="nc" id="L164">        panel.add(m$5);</span>
+<span class="nc" id="L165">        SpinnerModel _5$ = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L166">        JSpinner num_5$= new JSpinner(_5$);</span>
+<span class="nc" id="L167">        JFormattedTextField tf_5$ =  ((JSpinner.DefaultEditor)num_5$.getEditor()).getTextField();</span>
+<span class="nc" id="L168">        tf_5$.setEditable(false);</span>
+<span class="nc" id="L169">        panel.add(num_5$);</span>
+<span class="nc" id="L170">        springLayout.putConstraint(SpringLayout.WEST,num_5$,50,SpringLayout.EAST,m$5);</span>
+<span class="nc" id="L171">        springLayout.putConstraint(SpringLayout.NORTH,num_5$,25,SpringLayout.SOUTH,m$10);</span>
+
+<span class="nc" id="L173">        JLabel mc200 = new JLabel(&quot;number of $2:&quot;);</span>
+<span class="nc" id="L174">        springLayout.putConstraint(SpringLayout.NORTH,mc200,25,SpringLayout.SOUTH,m$5);</span>
+<span class="nc" id="L175">        panel.add(mc200);</span>
+<span class="nc" id="L176">        SpinnerModel _200c = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L177">        JSpinner num_200c= new JSpinner(_200c);</span>
+<span class="nc" id="L178">        JFormattedTextField tf_200c =  ((JSpinner.DefaultEditor)num_200c.getEditor()).getTextField();</span>
+<span class="nc" id="L179">        tf_200c.setEditable(false);</span>
+<span class="nc" id="L180">        panel.add(num_200c);</span>
+<span class="nc" id="L181">        springLayout.putConstraint(SpringLayout.WEST,num_200c,50,SpringLayout.EAST,mc200);</span>
+<span class="nc" id="L182">        springLayout.putConstraint(SpringLayout.NORTH,num_200c,25,SpringLayout.SOUTH,m$5);</span>
+
+<span class="nc" id="L184">        JLabel mc100 = new JLabel(&quot;number of $1:&quot;);</span>
+<span class="nc" id="L185">        springLayout.putConstraint(SpringLayout.NORTH,mc100,25,SpringLayout.SOUTH,mc200);</span>
+<span class="nc" id="L186">        panel.add(mc100);</span>
+<span class="nc" id="L187">        SpinnerModel _100c = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L188">        JSpinner num_100c= new JSpinner(_100c);</span>
+<span class="nc" id="L189">        JFormattedTextField tf_100c =  ((JSpinner.DefaultEditor)num_100c.getEditor()).getTextField();</span>
+<span class="nc" id="L190">        tf_100c.setEditable(false);</span>
+<span class="nc" id="L191">        panel.add(num_100c);</span>
+<span class="nc" id="L192">        springLayout.putConstraint(SpringLayout.WEST,num_100c,50,SpringLayout.EAST,mc100);</span>
+<span class="nc" id="L193">        springLayout.putConstraint(SpringLayout.NORTH,num_100c,25,SpringLayout.SOUTH,mc200);</span>
+
+<span class="nc" id="L195">        JLabel mc50 = new JLabel(&quot;number of 50c:&quot;);</span>
+<span class="nc" id="L196">        springLayout.putConstraint(SpringLayout.NORTH,mc50,25,SpringLayout.SOUTH,mc100);</span>
+<span class="nc" id="L197">        panel.add(mc50);</span>
+<span class="nc" id="L198">        SpinnerModel _50c = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L199">        JSpinner num_50c= new JSpinner(_50c);</span>
+<span class="nc" id="L200">        JFormattedTextField tf_50c =  ((JSpinner.DefaultEditor)num_50c.getEditor()).getTextField();</span>
+<span class="nc" id="L201">        tf_50c.setEditable(false);</span>
+<span class="nc" id="L202">        panel.add(num_50c);</span>
+<span class="nc" id="L203">        springLayout.putConstraint(SpringLayout.WEST,num_50c,50,SpringLayout.EAST,mc50);</span>
+<span class="nc" id="L204">        springLayout.putConstraint(SpringLayout.NORTH,num_50c,25,SpringLayout.SOUTH,mc100);</span>
+
+
+<span class="nc" id="L207">        JLabel mc20 = new JLabel(&quot;number of 20c:&quot;);</span>
+<span class="nc" id="L208">        springLayout.putConstraint(SpringLayout.NORTH,mc20,25,SpringLayout.SOUTH,mc50);</span>
+<span class="nc" id="L209">        panel.add(mc20);</span>
+<span class="nc" id="L210">        SpinnerModel _20c = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L211">        JSpinner num_20c= new JSpinner(_20c);</span>
+<span class="nc" id="L212">        JFormattedTextField tf_20c =  ((JSpinner.DefaultEditor)num_20c.getEditor()).getTextField();</span>
+<span class="nc" id="L213">        tf_20c.setEditable(false);</span>
+<span class="nc" id="L214">        panel.add(num_20c);</span>
+<span class="nc" id="L215">        springLayout.putConstraint(SpringLayout.WEST,num_20c,50,SpringLayout.EAST,mc20);</span>
+<span class="nc" id="L216">        springLayout.putConstraint(SpringLayout.NORTH,num_20c,25,SpringLayout.SOUTH,mc50);</span>
+
+
+<span class="nc" id="L219">        JLabel mc10 = new JLabel(&quot;number of 10c:&quot;);</span>
+<span class="nc" id="L220">        springLayout.putConstraint(SpringLayout.NORTH,mc10,25,SpringLayout.SOUTH,mc20);</span>
+<span class="nc" id="L221">        panel.add(mc10);</span>
+<span class="nc" id="L222">        SpinnerModel _10c = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L223">        JSpinner num_10c= new JSpinner(_10c);</span>
+<span class="nc" id="L224">        JFormattedTextField tf_10c =  ((JSpinner.DefaultEditor)num_10c.getEditor()).getTextField();</span>
+<span class="nc" id="L225">        tf_10c.setEditable(false);</span>
+<span class="nc" id="L226">        panel.add(num_10c);</span>
+<span class="nc" id="L227">        springLayout.putConstraint(SpringLayout.WEST,num_10c,50,SpringLayout.EAST,mc10);</span>
+<span class="nc" id="L228">        springLayout.putConstraint(SpringLayout.NORTH,num_10c,25,SpringLayout.SOUTH,mc20);</span>
+
+
+<span class="nc" id="L231">        JLabel mc5 = new JLabel(&quot;number of 5c:&quot;);</span>
+<span class="nc" id="L232">        springLayout.putConstraint(SpringLayout.NORTH,mc5,25,SpringLayout.SOUTH,mc10);</span>
+<span class="nc" id="L233">        panel.add(mc5);</span>
+<span class="nc" id="L234">        SpinnerModel _5c = new SpinnerNumberModel(0,0,99,1);</span>
+<span class="nc" id="L235">        JSpinner num_5c= new JSpinner(_5c);</span>
+<span class="nc" id="L236">        JFormattedTextField tf_5c =  ((JSpinner.DefaultEditor)num_5c.getEditor()).getTextField();</span>
+<span class="nc" id="L237">        tf_5c.setEditable(false);</span>
+<span class="nc" id="L238">        panel.add(num_5c);</span>
+<span class="nc" id="L239">        springLayout.putConstraint(SpringLayout.WEST,num_5c,50,SpringLayout.EAST,mc5);</span>
+<span class="nc" id="L240">        springLayout.putConstraint(SpringLayout.NORTH,num_5c,25,SpringLayout.SOUTH,mc10);</span>
+
+
+
+
+
+
+
+
+<span class="nc" id="L249">        JButton pay = new JButton(&quot;pay now!&quot;);</span>
+<span class="nc" id="L250">        springLayout.putConstraint(SpringLayout.WEST,pay,200,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L251">        springLayout.putConstraint(SpringLayout.NORTH,pay,500,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L252">        panel.add(pay);</span>
+<span class="nc" id="L253">        pay.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc bnc" id="L256" title="All 2 branches missed.">                if(e.getSource()==pay){</span>
+                    //TODO: call the change function
+
+<span class="nc" id="L259">                    List&lt;Money&gt; monies = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L261">                    monies.add(new Money(&quot;note&quot;,new BigDecimal(5),(int)num_5$.getValue()));</span>
+<span class="nc" id="L262">                    monies.add(new Money(&quot;note&quot;,new BigDecimal(10),(int)num_10$.getValue()));</span>
+<span class="nc" id="L263">                    monies.add(new Money(&quot;note&quot;,new BigDecimal(20),(int)num_20$.getValue()));</span>
+<span class="nc" id="L264">                    monies.add(new Money(&quot;note&quot;,new BigDecimal(50),(int)num_50$.getValue()));</span>
+<span class="nc" id="L265">                    monies.add(new Money(&quot;coin&quot;,new BigDecimal(&quot;0.05&quot;),(int)num_5c.getValue()));</span>
+<span class="nc" id="L266">                    monies.add(new Money(&quot;coin&quot;,new BigDecimal(&quot;0.1&quot;),(int)num_10c.getValue()));</span>
+<span class="nc" id="L267">                    monies.add(new Money(&quot;coin&quot;,new BigDecimal(&quot;0.2&quot;),(int)num_20c.getValue()));</span>
+<span class="nc" id="L268">                    monies.add(new Money(&quot;coin&quot;,new BigDecimal(&quot;0.5&quot;),(int)num_50c.getValue()));</span>
+<span class="nc" id="L269">                    monies.add(new Money(&quot;coin&quot;,new BigDecimal(2),(int)num_200c.getValue()));</span>
+<span class="nc" id="L270">                    monies.add(new Money(&quot;coin&quot;,new BigDecimal(1),(int)num_100c.getValue()));</span>
+
+
+<span class="nc" id="L273">                    BigDecimal change = vendingMachine.cashAmount(monies).subtract(vendingMachine.productAmount(boughtProduct));</span>
+<span class="nc" id="L274">                    Map&lt;BigDecimal, Money&gt; returnvalue = vendingMachine.returnedChange(change);</span>
+<span class="nc" id="L275">                    String  info = vendingMachine.cashPayment(boughtProduct,monies,username);</span>
+                    //TODO: Close the page after successful payment
+<span class="nc bnc" id="L277" title="All 4 branches missed.">                    if (returnvalue!= null &amp;&amp; info.split(&quot;,&quot;)[0].equals(&quot;Successful Paid. Please get your product and changes!&quot;)){</span>
+                        //BigDecimal change = new BigDecimal(info.split(&quot;,&quot;)[1]);
+                        //Map&lt;BigDecimal, Money&gt; returnvalue = vendingMachine.gettempMoneyMap();
+
+<span class="nc" id="L281">                        Iterator&lt; BigDecimal &gt; iterator = returnvalue.keySet().iterator();</span>
+<span class="nc" id="L282">                        String s = &quot;&quot;;</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">                        while (iterator.hasNext()){</span>
+<span class="nc" id="L284">                            BigDecimal key = iterator.next();</span>
+<span class="nc" id="L285">                            String type = returnvalue.get(key).getType();</span>
+<span class="nc" id="L286">                            int count = returnvalue.get(key).getCount();</span>
+<span class="nc" id="L287">                            s = s + &quot;Type: &quot; + type +&quot;, &quot; + &quot;Amount: &quot; + key +&quot;,&quot; + &quot;Count: &quot; + count + &quot;,\n&quot;;</span>
+<span class="nc" id="L288">                            System.out.println(s);</span>
+<span class="nc" id="L289">                        }</span>
+<span class="nc" id="L290">                        JTextPane jtp = new JTextPane();</span>
+<span class="nc" id="L291">                        jtp.setText(&quot;Payment succeeded&quot;+ info.split(&quot;,&quot;)[0] +&quot;,\n your change:\n&quot; + s);</span>
+<span class="nc" id="L292">                        JScrollPane jsp = new JScrollPane(jtp);</span>
+<span class="nc" id="L293">                        jsp.setPreferredSize(new Dimension(480, 150));</span>
+<span class="nc" id="L294">                        jsp.setBorder(null);</span>
+<span class="nc" id="L295">                        JOptionPane.showMessageDialog(panel, jsp, &quot;Payment succeeded!&quot; , JOptionPane.INFORMATION_MESSAGE);</span>
+
+<span class="nc bnc" id="L297" title="All 2 branches missed.">                        for (Product p : boughtProduct) {</span>
+<span class="nc" id="L298">                            vendingMachine.sellProducts(p);</span>
+<span class="nc" id="L299">                        }</span>
+
+<span class="nc" id="L301">                        Seller seller = new Seller(&quot;&quot;,0,&quot;&quot;);</span>
+<span class="nc" id="L302">                        seller.getReportASummary(vendingMachine);</span>
+<span class="nc" id="L303">                        seller.getReportAListOfTheCurrentAvailableItems(vendingMachine);</span>
+<span class="nc" id="L304">                        Cashier cashier = new Cashier(&quot;&quot;,2,&quot;&quot;);</span>
+<span class="nc" id="L305">                        cashier.getReportOfTheTransaction(vendingMachine);</span>
+<span class="nc" id="L306">                        WriteTXT writeTXT = new WriteTXT();</span>
+<span class="nc" id="L307">                        writeTXT.writeProductTXT(vendingMachine.getProducts());</span>
+<span class="nc" id="L308">                        writeTXT.writeMoneyTXT(vendingMachine.getMoneyMap());</span>
+
+<span class="nc" id="L310">                        timer.stop();</span>
+<span class="nc" id="L311">                        dispose();</span>
+
+<span class="nc" id="L313">                        LoginView loginView = new LoginView(vendingMachine);</span>
+<span class="nc" id="L314">                        loginView.LoginViewPlot();</span>
+
+<span class="nc" id="L316">                    }</span>
+<span class="nc bnc" id="L317" title="All 2 branches missed.">                    else if(info.equals(&quot;There are no available changes, enter the different notes or coins, or you can cancel this order.&quot;)){</span>
+<span class="nc" id="L318">                        JOptionPane.showMessageDialog(panel, info, &quot;Payment failed!&quot; , JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L321" title="All 2 branches missed.">                    else if(info.equals(&quot;The cash you paid is not enough, you need to input more cash, or you can cancel this order.&quot;)){</span>
+<span class="nc" id="L322">                        JOptionPane.showMessageDialog(panel, info, &quot;Payment failed!&quot; , JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+<span class="nc bnc" id="L325" title="All 2 branches missed.">                    else if(info.equals(&quot;Successful Paid. Please get your product!&quot;)){</span>
+<span class="nc" id="L326">                        JOptionPane.showMessageDialog(panel, info, &quot;Payment succeeded!&quot; , JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc bnc" id="L327" title="All 2 branches missed.">                        for (Product p : boughtProduct) {</span>
+<span class="nc" id="L328">                            vendingMachine.sellProducts(p);</span>
+<span class="nc" id="L329">                        }</span>
+<span class="nc" id="L330">                        WriteTXT writeTXT = new WriteTXT();</span>
+<span class="nc" id="L331">                        writeTXT.writeProductTXT(vendingMachine.getProducts());</span>
+<span class="nc" id="L332">                        writeTXT.writeMoneyTXT(vendingMachine.getMoneyMap());</span>
+<span class="nc" id="L333">                        Seller seller = new Seller(&quot;&quot;,0,&quot;&quot;);</span>
+<span class="nc" id="L334">                        seller.getReportASummary(vendingMachine);</span>
+<span class="nc" id="L335">                        seller.getReportAListOfTheCurrentAvailableItems(vendingMachine);</span>
+<span class="nc" id="L336">                        Cashier cashier = new Cashier(&quot;&quot;,2,&quot;&quot;);</span>
+<span class="nc" id="L337">                        cashier.getReportOfTheTransaction(vendingMachine);</span>
+<span class="nc" id="L338">                        timer.stop();</span>
+<span class="nc" id="L339">                        dispose();</span>
+<span class="nc" id="L340">                        LoginView loginView = new LoginView(vendingMachine);</span>
+<span class="nc" id="L341">                        loginView.LoginViewPlot();</span>
+
+
+                    }
+                    else {
+                        ;
+                    }
+                }
+<span class="nc" id="L349">            }</span>
+        });
+
+<span class="nc" id="L352">        JButton exit = new JButton(&quot;Exit&quot;);</span>
+<span class="nc" id="L353">        exit.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L356" title="All 2 branches missed.">                if(actionEvent.getSource()==exit){</span>
+<span class="nc" id="L357">                    CancelTransaction cancelTransaction = new CancelTransaction(&quot;user cancelled&quot;,vendingMachine.getUsers().get(Integer.parseInt(account)));</span>
+<span class="nc" id="L358">                    vendingMachine.getCancelTransactions().add(cancelTransaction);</span>
+<span class="nc" id="L359">                    Owner owner = new Owner(&quot;&quot;,999,&quot;&quot;);</span>
+<span class="nc" id="L360">                    owner.getCancelTransactionReport(vendingMachine);</span>
+
+<span class="nc" id="L362">                    timer.stop();</span>
+<span class="nc" id="L363">                    dispose();</span>
+<span class="nc" id="L364">                    LoginView loginView = new LoginView(vendingMachine);</span>
+<span class="nc" id="L365">                    loginView.LoginViewPlot();</span>
+                }
+<span class="nc" id="L367">            }</span>
+
+        });
+
+<span class="nc" id="L371">        panel.add(exit);</span>
+
+<span class="nc" id="L373">        springLayout.putConstraint(SpringLayout.WEST,exit,200,SpringLayout.EAST,pay);</span>
+<span class="nc" id="L374">        springLayout.putConstraint(SpringLayout.NORTH,exit,500,SpringLayout.NORTH,panel);</span>
+
+<span class="nc" id="L376">        panel.addMouseMotionListener(new MouseMotionListener() {</span>
+            @Override
+            public void mouseDragged(MouseEvent mouseEvent) {
+
+<span class="nc" id="L380">            }</span>
+            @Override
+            public void mouseMoved(MouseEvent mouseEvent) {
+<span class="nc" id="L383">                tt = 0;</span>
+<span class="nc" id="L384">            }</span>
+        });
+
+
+
+
+<span class="nc" id="L390">        container.add(panel);</span>
+<span class="nc" id="L391">        setVisible(true);</span>
+
+<span class="nc" id="L393">    }</span>
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

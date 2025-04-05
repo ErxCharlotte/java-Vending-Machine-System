@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">RE08_Group3_A2.View</a> &gt; <span class="el_source">LoginView.java</span></div><h1>LoginView.java</h1><pre class="source lang-java linenums">package RE08_Group3_A2.View;
+
+import RE08_Group3_A2.ReadAndWriteTXT.ReadTXT;
+import RE08_Group3_A2.User.User;
+import RE08_Group3_A2.VendingMachine;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.HashMap;
+
+public class LoginView extends JFrame {
+    VendingMachine vendingMachine;
+
+    //panel
+<span class="nc" id="L18">    SpringLayout springLayout = new SpringLayout();</span>
+<span class="nc" id="L19">    JPanel panel = new JPanel(springLayout);</span>
+    //BorderLayout borderLayout = new BorderLayout(50,50);
+    //JPanel panel = new JPanel();
+
+    //component
+<span class="nc" id="L24">    JLabel nameLable = new JLabel(&quot;Vending Machine (Lite Snacks) Software &quot;,JLabel.CENTER);</span>
+<span class="nc" id="L25">    JLabel userLable = new JLabel(&quot;UserName:&quot;);</span>
+<span class="nc" id="L26">    JLabel passwordLable = new JLabel(&quot;Password:&quot;);</span>
+
+<span class="nc" id="L28">    JTextField userText = new JTextField();</span>
+<span class="nc" id="L29">    JPasswordField passwordText = new JPasswordField();</span>
+
+
+<span class="nc" id="L32">    JButton loginButton = new JButton(&quot;Login&quot;);</span>
+<span class="nc" id="L33">    JButton signinButton = new JButton(&quot;Sign in&quot;);</span>
+
+<span class="nc" id="L35">    public LoginView(VendingMachine vendingMachine) {</span>
+<span class="nc" id="L36">        this.vendingMachine = vendingMachine;</span>
+<span class="nc" id="L37">    }</span>
+
+    public void LoginViewPlot(){
+<span class="nc" id="L40">        Container container = getContentPane();</span>
+
+<span class="nc" id="L42">        setSize(600,400);</span>
+<span class="nc" id="L43">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L44">        setDefaultCloseOperation(EXIT_ON_CLOSE);</span>
+<span class="nc" id="L45">        setResizable(false);</span>
+
+
+        //set font
+<span class="nc" id="L49">        nameLable.setFont(new Font(&quot;Arial&quot;,Font.PLAIN,30));</span>
+<span class="nc" id="L50">        passwordText.setEchoChar('*');</span>
+        //title
+<span class="nc" id="L52">        setTitle(&quot;Re 08    Group 3    Project 2&quot;);</span>
+
+        //size of input box
+<span class="nc" id="L55">        userText.setPreferredSize(new Dimension(200,30));</span>
+<span class="nc" id="L56">        passwordText.setPreferredSize(new Dimension(200,30));</span>
+
+<span class="nc" id="L58">        panel.add(userLable);</span>
+<span class="nc" id="L59">        panel.add(userText);</span>
+<span class="nc" id="L60">        panel.add(passwordLable);</span>
+<span class="nc" id="L61">        panel.add(passwordText);</span>
+<span class="nc" id="L62">        panel.add(loginButton);</span>
+<span class="nc" id="L63">        panel.add(signinButton);</span>
+
+        //putConstraint(e1,c1,pad,e2,c2)
+        // Link edge E1 of component C1 to edge E2 of component C2 with fixed distance between edges
+<span class="nc" id="L67">        springLayout.putConstraint(SpringLayout.WEST,userLable,150,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L68">        springLayout.putConstraint(SpringLayout.NORTH,userLable,100,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L69">        springLayout.putConstraint(SpringLayout.WEST,userText,10,SpringLayout.EAST,userLable);</span>
+<span class="nc" id="L70">        springLayout.putConstraint(SpringLayout.NORTH,userText,95,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L71">        springLayout.putConstraint(SpringLayout.NORTH,passwordLable,150,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L72">        springLayout.putConstraint(SpringLayout.WEST,passwordLable,150,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L73">        springLayout.putConstraint(SpringLayout.WEST,passwordText,10,SpringLayout.EAST,passwordLable);</span>
+<span class="nc" id="L74">        springLayout.putConstraint(SpringLayout.NORTH,passwordText,145,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L75">        springLayout.putConstraint(SpringLayout.WEST,loginButton,350,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L76">        springLayout.putConstraint(SpringLayout.NORTH,loginButton,200,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L77">        springLayout.putConstraint(SpringLayout.WEST,signinButton,200,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L78">        springLayout.putConstraint(SpringLayout.NORTH,signinButton,200,SpringLayout.NORTH,panel);</span>
+
+<span class="nc" id="L80">        loginButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">                if(e.getSource()==loginButton) {</span>
+<span class="nc" id="L84">                    ReadTXT r = new ReadTXT();</span>
+<span class="nc" id="L85">                    HashMap&lt;Integer, User&gt; users = r.readUserTXT();</span>
+<span class="nc" id="L86">                    Boolean temp = false;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                    for (int i = 0; i &lt; users.size(); i++) {</span>
+<span class="nc" id="L88">                        String psw = &quot;&quot;;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                        for (int j = 0; j &lt; passwordText.getPassword().length; j++) {</span>
+<span class="nc" id="L90">                            psw = psw + passwordText.getPassword()[j];</span>
+                        }
+
+                        //0 user
+<span class="nc bnc" id="L94" title="All 6 branches missed.">                        if (users.get(i).getName().equals(userText.getText()) &amp;&amp; users.get(i).getPassword().equals(psw) &amp;&amp; users.get(i).getType() == 0) {</span>
+<span class="nc" id="L95">                            temp = true;</span>
+<span class="nc" id="L96">                            CustomeView customeView = new CustomeView(vendingMachine, userText.getText(),Integer.toString(users.get(i).getAccount()));</span>
+<span class="nc" id="L97">                            customeView.CustomeViewPlot();</span>
+<span class="nc" id="L98">                            dispose();</span>
+<span class="nc" id="L99">                        }</span>
+                        //1 user
+<span class="nc bnc" id="L101" title="All 6 branches missed.">                        else if (users.get(i).getName().equals(userText.getText()) &amp;&amp; users.get(i).getPassword().equals(psw) &amp;&amp; users.get(i).getType() == 1) {</span>
+<span class="nc" id="L102">                            JOptionPane.showMessageDialog(panel, &quot;You can obtain two reports in the following paths:\n app/src/main/resources/sellerCurrentItemsReport.txt \napp/src/main/resources/sellerSoldReport.txt&quot;, &quot;Message!&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+
+<span class="nc" id="L104">                            temp = true;</span>
+<span class="nc" id="L105">                            SellerView sellerView = new SellerView();</span>
+<span class="nc" id="L106">                            sellerView.SellerViewPlot(vendingMachine);</span>
+<span class="nc" id="L107">                            dispose();</span>
+<span class="nc" id="L108">                        }</span>
+                        //2 user
+<span class="nc bnc" id="L110" title="All 6 branches missed.">                        else if (users.get(i).getName().equals(userText.getText()) &amp;&amp; users.get(i).getPassword().equals(psw) &amp;&amp; users.get(i).getType() == 2) {</span>
+<span class="nc" id="L111">                            JOptionPane.showMessageDialog(panel, &quot;You can obtain two reports in the following paths:\n app/src/main/resources/money_in_VendingMachine.txt \napp/src/main/resources/transactionReport.txt&quot;, &quot;Message!&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+
+<span class="nc" id="L113">                            temp = true;</span>
+<span class="nc" id="L114">                            CashierView cashierView = new CashierView();</span>
+<span class="nc" id="L115">                            cashierView.CashierViewPlot(vendingMachine);</span>
+<span class="nc" id="L116">                            dispose();</span>
+<span class="nc" id="L117">                        }</span>
+                        //3 user
+<span class="nc bnc" id="L119" title="All 6 branches missed.">                        else if (users.get(i).getName().equals(userText.getText()) &amp;&amp; users.get(i).getPassword().equals(psw) &amp;&amp; users.get(i).getType() == 3) {</span>
+<span class="nc" id="L120">                            JOptionPane.showMessageDialog(panel, &quot;You can obtain two reports in the following paths:\n app/src/main/resources/ownerCancelTransactionReport.txt \napp/src/main/resources/ownerUsersReport.txt&quot;, &quot;Message!&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+
+<span class="nc" id="L122">                            temp = true;</span>
+<span class="nc" id="L123">                            OwnerView ownerView = new OwnerView();</span>
+<span class="nc" id="L124">                            ownerView.OwnerViewPlot(vendingMachine);</span>
+<span class="nc" id="L125">                            dispose();</span>
+                        }
+//                        else if(users.get(i).getName().equals(&quot;&quot;)&amp;&amp;users.get(i).getPassword().equals(&quot;&quot;)){
+//                            temp = true;
+//                            CustomeView customeView = new CustomeView(vendingMachine,&quot;temp user&quot;);
+//                            customeView.CustomeViewPlot();
+//                            dispose();
+//                        }
+
+                    }
+                    //login fail
+<span class="nc bnc" id="L136" title="All 2 branches missed.">                    if (!temp) {</span>
+<span class="nc" id="L137">                        JOptionPane.showMessageDialog(panel, &quot;Please check your username and password!&quot;, &quot;Logon failed!&quot;, JOptionPane.WARNING_MESSAGE);</span>
+
+                    }
+                }
+<span class="nc" id="L141">            }</span>
+        });
+<span class="nc" id="L143">        signinButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                if(actionEvent.getSource()==signinButton){</span>
+<span class="nc" id="L147">                                        dispose();</span>
+<span class="nc" id="L148">                    SigninView signinView = new SigninView();</span>
+<span class="nc" id="L149">                    signinView.SignViewPlot(vendingMachine);</span>
+                }
+<span class="nc" id="L151">            }</span>
+        });
+
+<span class="nc" id="L154">        JButton tempuser = new JButton(&quot;Anonymous login&quot;);</span>
+<span class="nc" id="L155">        springLayout.putConstraint(SpringLayout.WEST,tempuser,450,SpringLayout.WEST,panel);</span>
+<span class="nc" id="L156">        springLayout.putConstraint(SpringLayout.NORTH,tempuser,200,SpringLayout.NORTH,panel);</span>
+<span class="nc" id="L157">        tempuser.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+<span class="nc bnc" id="L160" title="All 2 branches missed.">                if(actionEvent.getSource()==tempuser){</span>
+<span class="nc" id="L161">                    CustomeView customeView = new CustomeView(vendingMachine,&quot;-1&quot;,&quot;tempuser&quot;);</span>
+<span class="nc" id="L162">                    customeView.CustomeViewPlot();</span>
+                }
+<span class="nc" id="L164">            }</span>
+        });
+<span class="nc" id="L166">        panel.add(tempuser);</span>
+
+
+        //container
+<span class="nc" id="L170">        container.add(nameLable,BorderLayout.NORTH);</span>
+<span class="nc" id="L171">        container.add(panel);</span>
+<span class="nc" id="L172">        setVisible(true);</span>
+<span class="nc" id="L173">    }</span>
+
+//    public static void main(String[] args) {
+//        LoginView LV = new LoginView();
+//        LV.LoginViewPlot();
+//    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

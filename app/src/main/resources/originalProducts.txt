@@ -1,0 +1,17 @@
+category,name,quantity,code,price
+Drinks,Mineral water,7,1000,2.0
+Drinks,Sprite,7,1001,2.5
+Drinks,Coca cola,7,1002,2.5
+Drinks,Pepsi,7,1003,2.0
+Drinks,Juice,7,1004,3.0
+Chocolates,Mars,7,1005,1.5
+Chocolates,M&M,7,1006,2.0
+Chocolates,Bounty,7,1007,1.0
+Chocolates,Snickers,7,1008,1.0
+Chips,Smiths,7,1009,4.0
+Chips,Pringles,7,1010,5.0
+Chips,Kettle,7,1011,3.5
+Chips,Thins,7,1012,3.0
+Candies,Mentos,7,1013,1.0
+Candies,Sour Patch,7,1014,2.5
+Candies,Skittles,7,1015,3.13

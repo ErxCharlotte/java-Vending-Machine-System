@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VendingMachine.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">RE08_Group3_A2</a> &gt; <span class="el_source">VendingMachine.java</span></div><h1>VendingMachine.java</h1><pre class="source lang-java linenums">package RE08_Group3_A2;
+
+import RE08_Group3_A2.Product.Product;
+import RE08_Group3_A2.User.User;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class VendingMachine {
+    private HashMap&lt;Integer,Product&gt; products;
+
+    private HashMap&lt;Integer, User&gt; users;
+
+    private HashMap&lt;Integer, Product&gt; soldProducts;
+
+    private HashMap&lt;BigDecimal, Money&gt; moneyMap;
+
+<span class="fc" id="L19">    private HashMap&lt;String, Card&gt; savedCard = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L21">    private HashMap&lt;String, List&lt;Product&gt;&gt; paidProduct = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L23">    private List&lt;Transaction&gt; transactions = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L25">    private List&lt;CancelTransaction&gt; cancelTransactions = new CopyOnWriteArrayList&lt;&gt;();</span>
+
+    public List&lt;CancelTransaction&gt; getCancelTransactions() {
+<span class="fc" id="L28">        return cancelTransactions;</span>
+    }
+
+    public void setCancelTransactions(List&lt;CancelTransaction&gt; cancelTransactions) {
+<span class="nc" id="L32">        this.cancelTransactions = cancelTransactions;</span>
+<span class="nc" id="L33">    }</span>
+
+    private int NumberOfDrinks;
+    private int NumberOfChoc;
+    private int NumberOfChips;
+    private int NumberOfCandies;
+    private HashMap&lt;BigDecimal, Money&gt; tempMoneyMap;
+
+
+
+<span class="fc" id="L43">    public VendingMachine(HashMap&lt;Integer, Product&gt; products, HashMap&lt;Integer, User&gt; users, HashMap&lt;BigDecimal, Money&gt; moneyMap) {</span>
+<span class="fc" id="L44">        this.products = products;</span>
+<span class="fc" id="L45">        this.users = users;</span>
+<span class="fc" id="L46">        this.soldProducts = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L47">        this.moneyMap = moneyMap;</span>
+<span class="fc" id="L48">        this.NumberOfChips = 0;</span>
+<span class="fc" id="L49">        this.NumberOfChoc = 0;</span>
+<span class="fc" id="L50">        this.NumberOfDrinks = 0;</span>
+<span class="fc" id="L51">        this.NumberOfCandies = 0;</span>
+<span class="fc" id="L52">    }</span>
+
+    public List&lt;Transaction&gt; getTransactions() {
+<span class="fc" id="L55">        return transactions;</span>
+    }
+
+    public void setTransactions(List&lt;Transaction&gt; transactions) {
+<span class="nc" id="L59">        this.transactions = transactions;</span>
+<span class="nc" id="L60">    }</span>
+
+    public HashMap&lt;String, List&lt;Product&gt;&gt; getPaidProduct() {
+<span class="fc" id="L63">        return paidProduct;</span>
+    }
+
+    public void setPaidProduct(HashMap&lt;String, List&lt;Product&gt;&gt; paidProduct) {
+<span class="nc" id="L67">        this.paidProduct = paidProduct;</span>
+<span class="nc" id="L68">    }</span>
+
+    public HashMap&lt;String, Card&gt; getSavedCard() {
+<span class="fc" id="L71">        return savedCard;</span>
+    }
+
+    public void setSavedCard(HashMap&lt;String, Card&gt; savedCard) {
+<span class="nc" id="L75">        this.savedCard = savedCard;</span>
+<span class="nc" id="L76">    }</span>
+
+    public HashMap&lt;BigDecimal, Money&gt; getMoneyMap() {
+<span class="fc" id="L79">        return moneyMap;</span>
+    }
+
+    public void setMoneyMap(HashMap&lt;BigDecimal, Money&gt; moneyMap) {
+<span class="nc" id="L83">        this.moneyMap = moneyMap;</span>
+<span class="nc" id="L84">    }</span>
+
+    public HashMap&lt;Integer, Product&gt; getProducts() {
+<span class="fc" id="L87">        return products;</span>
+    }
+
+    public void setProducts(HashMap&lt;Integer, Product&gt; products) {
+<span class="nc" id="L91">        this.products = products;</span>
+<span class="nc" id="L92">    }</span>
+
+    public HashMap&lt;Integer, User&gt; getUsers() {
+<span class="fc" id="L95">        return users;</span>
+    }
+
+    public void setUsers(HashMap&lt;Integer, User&gt; users) {
+<span class="nc" id="L99">        this.users = users;</span>
+<span class="nc" id="L100">    }</span>
+
+    public HashMap&lt;Integer, Product&gt; getSoldProducts() {
+<span class="fc" id="L103">        return soldProducts;</span>
+    }
+
+    public void setSoldProducts(HashMap&lt;Integer, Product&gt; soldProducts) {
+<span class="nc" id="L107">        this.soldProducts = soldProducts;</span>
+<span class="nc" id="L108">    }</span>
+
+    public List&lt;Product&gt; recentlyProduct(String account){
+<span class="fc" id="L111">        List&lt;Product&gt; products1 = paidProduct.get(account);</span>
+<span class="fc" id="L112">        List&lt;Product&gt; sortedProducts = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (products1 == null){</span>
+<span class="nc" id="L114">            return null;</span>
+        }
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (products1.size() &lt; 5){</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">            for (int i = products1.size() - 1; i &gt;= 0; i--){</span>
+<span class="fc" id="L118">                sortedProducts.add(products1.get(i));</span>
+            }
+<span class="fc" id="L120">            return sortedProducts;</span>
+        }
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        for (int j = products1.size() - 1; j &gt;= products1.size() - 5; j--){</span>
+<span class="fc" id="L123">            sortedProducts.add(products1.get(j));</span>
+        }
+<span class="fc" id="L125">        return sortedProducts;</span>
+    }
+
+
+    public void modifyMoneyCount(BigDecimal amount, int count, String type){
+<span class="fc" id="L130">        Money money = moneyMap.get(amount);</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (money == null){</span>
+<span class="fc" id="L132">            moneyMap.put(amount, new Money(type,amount,count));</span>
+        }else {
+<span class="fc" id="L134">            money.setCount(money.getCount() + count);</span>
+        }
+<span class="fc" id="L136">    }</span>
+
+
+    public BigDecimal productAmount(List&lt;Product&gt; boughtProduct){
+<span class="fc" id="L140">        BigDecimal sumAmount = new BigDecimal(0);</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        for (int i = 0; i &lt; boughtProduct.size(); i++){</span>
+<span class="fc" id="L142">            Product product = boughtProduct.get(i);</span>
+<span class="fc" id="L143">            BigDecimal count = new BigDecimal(product.getCount());</span>
+<span class="fc" id="L144">            sumAmount = sumAmount.add((product.getPrice().multiply(count)));</span>
+            //sumAmount = sumAmount.add((product.getPrice()));
+        }
+<span class="fc" id="L147">        return sumAmount;</span>
+    }
+
+    public BigDecimal cashAmount(List&lt;Money&gt; cashPaid){
+<span class="fc" id="L151">        BigDecimal sumCash = new BigDecimal(0);</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        for (int i = 0; i &lt; cashPaid.size(); i++){</span>
+<span class="fc" id="L153">            Money money = cashPaid.get(i);</span>
+<span class="fc" id="L154">            BigDecimal count = new BigDecimal(money.getCount());</span>
+<span class="fc" id="L155">            sumCash = sumCash.add(money.getAmount().multiply(count));</span>
+        }
+<span class="fc" id="L157">        return sumCash;</span>
+    }
+
+
+    public void subtractProductsAfterPayment(List&lt;Product&gt; boughtProduct){
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        for (int i = 0; i &lt; boughtProduct.size(); i++){</span>
+<span class="fc" id="L163">            Product product = boughtProduct.get(i);</span>
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">            for (Integer key : products.keySet()) {</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">                if (product.getCode() == products.get(key).getCode()){</span>
+<span class="fc" id="L166">                    products.get(key).setCount(products.get(key).getCount() - product.getCount());</span>
+//                    if (products.get(key).getCount() == 0){
+//                        products.remove(key);
+//                    }
+<span class="fc" id="L170">                    break;</span>
+                }
+<span class="fc" id="L172">            }</span>
+        }
+
+<span class="fc" id="L175">    }</span>
+
+    public void saveCardInfo(String name, String number, String account){
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        if (savedCard.containsKey(account)){</span>
+<span class="fc" id="L179">            return;</span>
+        }
+<span class="fc" id="L181">        savedCard.put(account, new Card(name, number, account));</span>
+<span class="fc" id="L182">    }</span>
+
+    public void saveTransaction(String account, List&lt;Product&gt; boughtProduct, BigDecimal amount, BigDecimal change, String paymentWay){
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        if (paidProduct.containsKey(account)){</span>
+<span class="fc" id="L186">            paidProduct.get(account).addAll(boughtProduct);</span>
+        }else {
+<span class="fc" id="L188">            paidProduct.put(account, new ArrayList&lt;&gt;(boughtProduct));</span>
+        }
+<span class="fc" id="L190">        transactions.add(new Transaction(LocalDateTime.now(), boughtProduct, amount, change, paymentWay));</span>
+<span class="fc" id="L191">    }</span>
+
+
+
+    public String cashPayment(List&lt;Product&gt; boughtProduct, List&lt;Money&gt; cashPaid, String account) {
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (productAmount(boughtProduct).compareTo(cashAmount(cashPaid)) &lt;= 0) {</span>
+<span class="fc" id="L197">            BigDecimal change = cashAmount(cashPaid).subtract(productAmount(boughtProduct));</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            if (change.compareTo(new BigDecimal(0)) == 0) {</span>
+<span class="fc" id="L199">                subtractProductsAfterPayment(boughtProduct);</span>
+<span class="fc" id="L200">                saveTransaction(account, boughtProduct, cashAmount(cashPaid), change, &quot;Cash&quot;);</span>
+<span class="fc" id="L201">                return &quot;Successful Paid. Please get your product!&quot;;</span>
+            } else {
+<span class="fc" id="L203">                tempMoneyMap = returnedChange(change);</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">                if (tempMoneyMap == null) {</span>
+<span class="fc" id="L205">                    return &quot;There are no available changes, enter the different notes or coins, or you can cancel this order.&quot;;</span>
+                } else {
+<span class="fc bfc" id="L207" title="All 2 branches covered.">                    for (int j = 0; j &lt; cashPaid.size(); j++) {</span>
+<span class="fc" id="L208">                        Money money = cashPaid.get(j);</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">                        if (moneyMap.get(money.getAmount()).getAmount().compareTo(money.getAmount()) == 0) {</span>
+<span class="fc" id="L210">                            moneyMap.get(money.getAmount()).setCount(moneyMap.get(money.getAmount()).getCount() + money.getCount());</span>
+                        }
+                    }
+<span class="fc" id="L213">                    subtractProductsAfterPayment(boughtProduct);</span>
+<span class="fc" id="L214">                    saveTransaction(account, boughtProduct, cashAmount(cashPaid), change, &quot;Cash&quot;);</span>
+<span class="fc" id="L215">                    return &quot;Successful Paid. Please get your product and changes!&quot; + &quot;,&quot; + change;</span>
+                }
+            }
+        } else {
+<span class="fc" id="L219">            return &quot;The cash you paid is not enough, you need to input more cash, or you can cancel this order.&quot;;</span>
+        }
+    }
+
+
+    public HashMap&lt;BigDecimal, Money&gt; returnedChange(BigDecimal change){
+<span class="fc" id="L225">        HashMap&lt;BigDecimal, Money&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L226" title="All 4 branches covered.">        if (change.compareTo(BigDecimal.valueOf(0)) &lt; 0 || change.compareTo(BigDecimal.valueOf(0)) == 0){</span>
+<span class="fc" id="L227">            return null;</span>
+        }
+<span class="fc" id="L229">        List&lt;Money&gt; sortedMoney = moneyMap.values().stream().sorted(Comparator.comparing(Money::getAmount).reversed()).toList();</span>
+<span class="fc" id="L230">        int i = 0;</span>
+<span class="fc bfc" id="L231" title="All 4 branches covered.">        while (i &lt; sortedMoney.size() &amp;&amp; change.compareTo(BigDecimal.valueOf(0)) &gt; 0){</span>
+<span class="fc" id="L232">            Money money = sortedMoney.get(i);</span>
+<span class="pc bpc" id="L233" title="2 of 8 branches missed.">            if ((this.getMoneyMap().get(money.getAmount()).getCount() &lt; 0) || (money.getAmount().compareTo(change) &gt; 0) || ((map.get(money.getAmount()) != null) &amp;&amp; (map.get(money.getAmount()).getCount() &gt;= money.getCount()))){</span>
+                //***
+<span class="fc" id="L235">                i++;</span>
+<span class="fc" id="L236">                continue;</span>
+            }
+<span class="fc" id="L238">            change = change.subtract(money.getAmount());</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">            if (map.containsKey(money.getAmount())){</span>
+<span class="fc" id="L240">                Money money1 = map.get(money.getAmount());</span>
+<span class="fc" id="L241">                money1.setCount(money1.getCount() + 1);</span>
+<span class="fc" id="L242">            }else {</span>
+<span class="fc" id="L243">                map.put(money.getAmount(), new Money(money.getType(), money.getAmount(), 1));</span>
+            }
+//            if (change.compareTo(money.getAmount()) &lt; 0){
+//                i = i + 1;
+//            }
+<span class="fc" id="L248">        }</span>
+
+<span class="fc bfc" id="L250" title="All 2 branches covered.">        if (change.compareTo(BigDecimal.valueOf(0)) &gt; 0){</span>
+<span class="fc" id="L251">            return null;</span>
+        }
+
+<span class="fc bfc" id="L254" title="All 2 branches covered.">        for (BigDecimal key : map.keySet()) {</span>
+<span class="fc" id="L255">            Money money = moneyMap.get(key);</span>
+<span class="fc" id="L256">            money.setCount(money.getCount() - map.get(key).getCount());</span>
+<span class="fc" id="L257">        }</span>
+
+<span class="fc" id="L259">        return map;</span>
+    }
+    
+
+    public HashMap&lt;BigDecimal, Money&gt; gettempMoneyMap(){
+<span class="nc" id="L264">        return this.tempMoneyMap;</span>
+    }
+
+    // initialize the number of products in each category.
+    public void initializeNumberOfCategory(){
+<span class="fc bfc" id="L269" title="All 2 branches covered.">        for(Product product : this.products.values()){</span>
+<span class="pc bpc" id="L270" title="1 of 5 branches missed.">            switch (product.getType()) {</span>
+                case &quot;Drinks&quot;:
+<span class="fc" id="L272">                    this.NumberOfDrinks = this.NumberOfDrinks + product.getCount();</span>
+<span class="fc" id="L273">                    break;</span>
+                case &quot;Chocolates&quot;:
+<span class="fc" id="L275">                    this.NumberOfChoc = this.NumberOfChoc + product.getCount();</span>
+<span class="fc" id="L276">                    break;</span>
+                case &quot;Chips&quot;:
+<span class="fc" id="L278">                    this.NumberOfChips = this.NumberOfChips + product.getCount();</span>
+<span class="fc" id="L279">                    break;</span>
+                case &quot;Candies&quot;:
+<span class="fc" id="L281">                    this.NumberOfCandies = this.NumberOfCandies + product.getCount();</span>
+                    break;
+            }
+<span class="fc" id="L284">        }</span>
+<span class="fc" id="L285">    }</span>
+
+    public void updateNumberOfCategory(Product product, int quantity){
+<span class="pc bpc" id="L288" title="3 of 5 branches missed.">        switch (product.getType()) {</span>
+            case &quot;Drinks&quot; :
+<span class="fc" id="L290">                this.NumberOfDrinks = this.NumberOfDrinks + quantity;</span>
+<span class="fc" id="L291">                break;</span>
+            case &quot;Chocolates&quot; :
+<span class="nc" id="L293">                this.NumberOfChoc = this.NumberOfChoc + quantity;</span>
+<span class="nc" id="L294">                break;</span>
+            case &quot;Chips&quot; :
+<span class="nc" id="L296">                this.NumberOfChips = this.NumberOfChips + quantity;</span>
+<span class="nc" id="L297">                break;</span>
+            case &quot;Candies&quot; :
+<span class="fc" id="L299">                this.NumberOfCandies = this.NumberOfCandies + quantity;</span>
+                break;
+        }
+<span class="fc" id="L302">    }</span>
+
+    public void sellProducts(Product product){
+<span class="nc" id="L305">        Product productNew = null;</span>
+<span class="nc" id="L306">        int quantity = product.getCount();</span>
+<span class="nc" id="L307">        int code = product.getCode();</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">        if(!this.soldProducts.containsKey(product.getCode())){</span>
+<span class="nc" id="L309">            productNew = new Product();</span>
+<span class="nc" id="L310">            productNew.setCount(product.getCount());</span>
+<span class="nc" id="L311">            productNew.setCode(product.getCode());</span>
+<span class="nc" id="L312">            productNew.setType(product.getType());</span>
+<span class="nc" id="L313">            productNew.setName(product.getName());</span>
+<span class="nc" id="L314">            this.soldProducts.put(productNew.getCode(), productNew);</span>
+        }else {
+<span class="nc" id="L316">            this.soldProducts.get(code).setCount(this.soldProducts.get(code).getCount() + quantity);</span>
+        }
+<span class="nc" id="L318">    }</span>
+
+    public int getNumberOfDrinks() {
+<span class="fc" id="L321">        return NumberOfDrinks;</span>
+    }
+    public int getNumberOfChoc() {
+<span class="nc" id="L324">        return NumberOfChoc;</span>
+    }
+
+    public int getNumberOfChips() {
+<span class="nc" id="L328">        return NumberOfChips;</span>
+    }
+
+
+    public int getNumberOfCandies() {
+<span class="nc" id="L333">        return NumberOfCandies;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

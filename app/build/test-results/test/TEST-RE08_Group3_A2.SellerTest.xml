@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="RE08_Group3_A2.SellerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-11-03T11:40:13" hostname="CHARLOTTE559" time="0.005">
+  <properties/>
+  <testcase name="constructTest()" classname="RE08_Group3_A2.SellerTest" time="0.0"/>
+  <testcase name="addProductsTest()" classname="RE08_Group3_A2.SellerTest" time="0.002"/>
+  <testcase name="removeProductsTest()" classname="RE08_Group3_A2.SellerTest" time="0.002"/>
+  <system-out><![CDATA[Cannot add 0 or negative number of product!
+Thins cannot have more than 15 products here!
+M&M cannot have more than 15 products here!
+Cannot remove 0 or negative number of product!
+Cannot remove 0 or negative number of product!
+This product is not acceptable!
+No sufficient products here.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

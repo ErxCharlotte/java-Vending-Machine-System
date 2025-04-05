@@ -1,0 +1,12 @@
+Name;Type
+Jack;Cashier
+John;Seller
+Jack1;Owner
+Tony;Seller
+Jack2;Customer
+1;Customer
+2;Seller
+3;Cashier
+4;Owner
+
+This report updated at: 03/11/2022 16:37:13

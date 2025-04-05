@@ -1,0 +1,19 @@
+Code;Type;Name;Quantity;Price
+1000;Drinks;Mineral water;7;2.0
+1001;Drinks;Sprite;7;2.5
+1002;Drinks;Coca cola;7;2.5
+1003;Drinks;Pepsi;7;2.0
+1004;Drinks;Juice;7;3.0
+1005;Chocolates;Mars;7;1.5
+1006;Chocolates;M&M;7;2.0
+1007;Chocolates;Bounty;7;1.0
+1008;Chocolates;Snickers;7;1.0
+1009;Chips;Smiths;7;4.0
+1010;Chips;Pringles;7;5.0
+1011;Chips;Kettle;7;3.5
+1012;Chips;Thins;7;3.0
+1013;Candies;Mentos;7;1.0
+1014;Candies;Sour Patch;7;2.5
+1015;Candies;Skittles;7;3.13
+
+This report updated at: 03/11/2022 16:37:13

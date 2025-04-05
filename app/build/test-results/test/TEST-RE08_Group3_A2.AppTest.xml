@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="RE08_Group3_A2.AppTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-11-03T11:40:13" hostname="CHARLOTTE559" time="0.061">
+  <properties/>
+  <testcase name="writeUserTest()" classname="RE08_Group3_A2.AppTest" time="0.039"/>
+  <testcase name="writeProductTest()" classname="RE08_Group3_A2.AppTest" time="0.014"/>
+  <testcase name="writeMoneyTest()" classname="RE08_Group3_A2.AppTest" time="0.006"/>
+  <system-out><![CDATA[Mineral water
+Sprite
+Coca cola
+Pepsi
+Juice
+Mars
+M&M
+Bounty
+Snickers
+Smiths
+Pringles
+Kettle
+Thins
+Mentos
+Sour Patch
+Skittles
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="RE08_Group3_A2.ProductTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-11-03T11:40:13" hostname="CHARLOTTE559" time="0.01">
+  <properties/>
+  <testcase name="createChipTest()" classname="RE08_Group3_A2.ProductTest" time="0.003"/>
+  <testcase name="createChocolateTest()" classname="RE08_Group3_A2.ProductTest" time="0.002"/>
+  <testcase name="createCandyTest()" classname="RE08_Group3_A2.ProductTest" time="0.002"/>
+  <testcase name="createProductTest()" classname="RE08_Group3_A2.ProductTest" time="0.001"/>
+  <testcase name="createDrinkTest()" classname="RE08_Group3_A2.ProductTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

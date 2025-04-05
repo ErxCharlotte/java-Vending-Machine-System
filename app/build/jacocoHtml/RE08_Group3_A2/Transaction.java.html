@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Transaction.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">RE08_Group3_A2</a> &gt; <span class="el_source">Transaction.java</span></div><h1>Transaction.java</h1><pre class="source lang-java linenums">package RE08_Group3_A2;
+
+import RE08_Group3_A2.Product.Product;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+public class Transaction {
+
+    private LocalDateTime time;
+    private List&lt;Product&gt; products;
+    private BigDecimal amount;
+    private BigDecimal changes;
+    private String paymentWay;
+
+
+<span class="fc" id="L18">    public Transaction(){</span>
+<span class="fc" id="L19">    }</span>
+
+<span class="fc" id="L21">    public Transaction(LocalDateTime time, List&lt;Product&gt; products, BigDecimal amount, BigDecimal changes, String paymentWay) {</span>
+<span class="fc" id="L22">        this.time = time;</span>
+<span class="fc" id="L23">        this.products = products;</span>
+<span class="fc" id="L24">        this.amount = amount;</span>
+<span class="fc" id="L25">        this.changes = changes;</span>
+<span class="fc" id="L26">        this.paymentWay = paymentWay;</span>
+<span class="fc" id="L27">    }</span>
+
+    public LocalDateTime getTime() {
+<span class="nc" id="L30">        return time;</span>
+    }
+
+    public void setTime(LocalDateTime time) {
+<span class="nc" id="L34">        this.time = time;</span>
+<span class="nc" id="L35">    }</span>
+
+    public List&lt;Product&gt; getProducts() {
+<span class="fc" id="L38">        return products;</span>
+    }
+
+    public void setProducts(List&lt;Product&gt; products) {
+<span class="fc" id="L42">        this.products = products;</span>
+<span class="fc" id="L43">    }</span>
+
+    public BigDecimal getAmount() {
+<span class="fc" id="L46">        return amount;</span>
+    }
+
+    public void setAmount(BigDecimal amount) {
+<span class="fc" id="L50">        this.amount = amount;</span>
+<span class="fc" id="L51">    }</span>
+
+    public BigDecimal getChanges() {
+<span class="fc" id="L54">        return changes;</span>
+    }
+
+    public void setChanges(BigDecimal changes) {
+<span class="fc" id="L58">        this.changes = changes;</span>
+<span class="fc" id="L59">    }</span>
+
+    public String getPaymentWay() {
+<span class="fc" id="L62">        return paymentWay;</span>
+    }
+
+    public void setPaymentWay(String paymentWay) {
+<span class="fc" id="L66">        this.paymentWay = paymentWay;</span>
+<span class="fc" id="L67">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
